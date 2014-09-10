@@ -135,4 +135,14 @@
             }
         });
     });
+    /**
+     * 处理取消可用,取消非必填
+     * @return {[type]} [description]
+     */
+    $(document).on('click', '.iswrite', function() {
+        if (!$(this).prop('checked')) {
+            var index = $(this).attr('data-index');
+            mview.lines()[index].isMust(0);
+        };
+    });
 }(jQuery);

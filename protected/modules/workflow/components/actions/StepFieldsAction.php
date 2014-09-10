@@ -47,6 +47,14 @@ class StepFieldsAction extends CAction {
                         $_m->field_id = $ikey;
                         $_m->step_id = $modelStep->primaryKey;
                         $_m->hide = $_m->show == 1 ? 0 : 1;
+                        //保密就是不可写
+                        if ($_m->hide == 0) {
+                            $_m->write = 0;
+                        }
+                        //不可写就是不必填
+                        if ($_m->write == 0) {
+                            $_m->must = 0;
+                        }
                         if ($_m->validate()) {
                             $values[] = $_m;
                         }

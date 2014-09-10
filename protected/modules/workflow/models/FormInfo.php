@@ -65,14 +65,22 @@ class FormInfo extends DbiRecod {
     }
     /**
      * 查看表单的所有字段
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @param  integer $ids [description]
+     * @param  integer $id  [description]
+     * @return [type]       [description]
      */
-    public function getFields($id = 0) {
+    public function getFields($ids = 0, $id = 0) {
         $id == 0 && $id = $this->primaryKey;
-        $fields = FormField::model()->findAll('form_id=:form_id', array(
+        $sql = 'form_id=:form_id';
+        $data = array(
             ':form_id' => $id
-        ));
+        );
+        if ($ids && is_array($ids)) {
+            $sql.= ' AND field_id IN(:ids)';
+            $data[':ids'] = implode(',', $ids);
+        }
+        $sql = strtr($sql, $data);
+        $fields = FormField::model()->findAll($sql);
         return $fields;
     }
     public function getFieldsBySql($id = 0, $key = false) {

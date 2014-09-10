@@ -174,10 +174,8 @@
                 url: eform.attr('action'),
                 data: eform.serialize(),
                 success: function(result) {
-                    if (result.status == 1) {
-
-                    } else {
-                        msgShow(result.info,true);
+                    if (result.status == 1) {} else {
+                        msgShow(result.info, true);
                     }
                 },
                 complete: function() {

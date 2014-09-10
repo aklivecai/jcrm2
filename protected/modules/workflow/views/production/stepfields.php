@@ -82,12 +82,12 @@ $this->regScriptFile($scrpitS, CClientScript::POS_END);
                 </td>
                 <td>                    
                     <label>
-                            <input type="checkbox" value="1" data-bind="checked: isWrite,attr:{disabled: !ishow(),name:getName('write')}">
+                            <input type="checkbox" value="1" data-bind="checked: isWrite,attr:{disabled: !ishow(),name:getName('write'),'data-index': $index}" class="iswrite" >
                             可用
                     </label>  
                     <i data-bind="text:iswite"></i>
                     <label>
-                            <input type="checkbox" value="1" data-bind="checked: isMust,attr:{disabled: !ishow(),name:getName('must')}">
+                            <input type="checkbox" value="1" data-bind="checked: isMust,attr:{disabled: !ishow(),name:getName('must')}" class="ismust">
                             必填
                     </label>
                 </td>
