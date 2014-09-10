@@ -1,0 +1,40 @@
+<h1>Login</h1>
+
+<p>Please fill out the following form with your login credentials:</p>
+
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'step',
+	'enableAjaxValidation'=>true,
+
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'step_name'); ?>
+		<?php echo $form->textField($model,'step_name'); ?>
+		<?php echo $form->error($model,'step_name'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'step'); ?>
+                <?php echo $form->dropDownList($model, 'step_user', Tool::userList()); ?>
+		<?php echo $form->error($model,'step'); ?>
+		<p class="hint">
+			Hint: You may login with <tt>demo/demo</tt>.
+		</p>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->labelEx($model,'timeout'); ?>
+		<?php echo $form->textField($model,'timeout'); ?>
+		<?php echo $form->error($model,'timeout'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->

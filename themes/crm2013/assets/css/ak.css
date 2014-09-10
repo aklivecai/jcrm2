@@ -1,0 +1,854 @@
+/*plugins/datepicker/skin/WdatePicker.css*/
+
+.Wdate {
+    border: #999 1px solid;
+    height: 20px;
+    background: #fff url(datePicker.gif) no-repeat right;
+}
+.WdateFmtErr {
+    font-weight: bold;
+    color: red;
+}
+.kclear {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    height: 0;
+    clear: both;
+}
+.kr {
+    float: right;
+}
+.wap-body {
+    margin: 12px;
+}
+.grid-view-loading, .load-content {
+    -webkit-text-size-adjust: none -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    cursor: wait;
+}
+.btn {
+    margin: 0 3px;
+}
+#ibody .red {
+    color: #F00;
+}
+.row-form .required span {
+    color: #F00;
+}
+.logo span {
+    color: #FFF;
+    font: bold 20px/25px'黑体';
+}
+.header {
+    background-color: #DDC;
+}
+.breadLine {
+    background-color: #ECECEC;
+}
+.breadcrumb {
+    padding: 0 15px;
+    background: none;
+}
+.breadLine .breadcrumb li {
+    margin-right: 2px\9;
+}
+.row-form {
+    padding: 0 16px;
+    padding-top: 8px;
+}
+.row-form input[type="text"], .row-form input[type="password"], .row-form textarea {
+    height: 35px;
+}
+.form-horizontal .control-group {
+    margin-bottom: 8px;
+}
+.block-fluid .grid-view {
+    padding-top: 0;
+}
+.admin ul.control {
+    width: 120px;
+    float: right;
+}
+.admin .image {
+    width: 80px;
+}
+.img-polaroid {
+    padding: 0;
+}
+ul.yiiPager .first, ul.yiiPager .last {
+    display: inline;
+}
+tfoot td .pagination {
+    margin: 0;
+}
+.pagination .first, .pagination .last {
+    display: none;
+}
+.pagination .previous a {
+    border-left-width: 1px;
+}
+.grid-view select {
+    height: 20px;
+    line-height: 20px;
+    min-width: 25px;
+    padding: 0;
+    margin: 0;
+}
+.button-column select {
+    width: auto !important;
+    max-width: 120px;
+}
+.grid-view {
+    margin: 12px;
+}
+.grid-view .pagination .disabled > span, .grid-view .pagination .disabled > a, .grid-view .pagination .disabled > a:hover, .grid-view .pagination .disabled > a:focus {
+    color: #999999;
+    cursor: not-allowed;
+    border-color: #dddddd;
+}
+#list-grid {} .grid-view-loading {
+    background: #FFF url(../img/tak/loading.gif) no-repeat center 8px;
+    opacity: .5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
+}
+.grid-view-loading table {
+    opacity: .3;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=30)";
+}
+.grid-view .filters input[type="text"] {
+    margin: 0;
+    padding: 0;
+}
+.grid-view .dataTables_info {
+    font-size: 11px;
+    color: #333;
+    line-height: 45px;
+}
+.list-view .pagination, .grid-view .pagination {
+    margin: 0;
+    padding: 5px;
+    text-align: right;
+    float: right;
+}
+.grid-view .maxw-title {
+    max-width: 80px;
+}
+.block-fluid .nav {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px;
+}
+.block-fluid .navbar .nav {
+    margin-bottom: 0;
+}
+.grid-view .filters .filter-container {
+    margin: 0;
+    padding: 0;
+}
+/*权限*/
+
+.actions-column .revoke-link, a.remove-link, #content a.revoke-link {
+    color: red;
+}
+.tak-smail .row-form {
+    padding: 2px;
+}
+/*弹窗*/
+
+.modal-header {
+    color: #FFF;
+}
+.modal-header h4 {
+    margin: 0;
+}
+.modal .control-label {
+    width: 100px;
+}
+.modal .controls {
+    margin-left: 110px;
+}
+.modal .row-form {
+    padding-top: 10px;
+}
+.content .workplace .head {
+    background-color: #000;
+}
+.control-group select[class*="sele1ct-"] {
+    width: 100%;
+}
+@media (max-width: 767px) {
+    body {
+        padding-right: 0;
+        padding-left: 0;
+   }
+}
+@media (min-width: 1200px) {
+    .row {
+        margin-left: -30px;
+        *zoom: 1;
+   }
+   .row:before, .row:after {
+       display: table;
+       line-height: 0;
+       content: "";
+  }
+  .row:after {
+      clear: both;
+ }
+ [class*="span"] {
+     float: left;
+     min-height: 1px;
+     margin-left: 30px;
+}
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 1000px;
+}
+.span12 {
+    width: 1000px;
+}
+.span11 {
+    width: 970px;
+}
+.span10 {
+    width: 970px;
+}
+.span9 {
+    width: 870px;
+}
+.span8 {
+    width: 770px;
+}
+.span7 {
+    width: 670px;
+}
+}
+.span2 .nav-list > .active > a, .span2 .nav-list .nav-header {
+    margin-right: 0;
+}
+input[type=date] {
+    width: 128px;
+    width: 85px\0;
+}
+.stor-date {
+    width: 80px;
+}
+.stor-txt {
+    width: 90%;
+}
+.nav-list > li > a, .nav-list .nav-header {
+    margin-left: 0;
+    margin-right: 0;
+}
+.wrapper input.error {
+    border: 1px solid red;
+    transition: border linear .2s, box-shadow linear .5s;
+    -moz-transition: border linear .2s, -moz-box-shadow linear .5s;
+    -webkit-transition: border linear .2s, -webkit-box-shadow linear .5s;
+    -o-transition: border linear .2s, -webkit-box-shadow linear .5s;
+    outline: none;
+    border-color: rgba(255, 0, 0, 0.75);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 8px rgba(255, 0, 0, 0.75);
+    -webkit-box-shadow: 0 0 8px rgba(255, 0, 0, 0.75);
+    -o-box-shadow: 0 0 8px rgba(255, 0, 0, 0.75);
+}
+.nav-tabs {
+    margin: 0;
+}
+.tab-content {
+    background-color: #fff;
+    border: 1px solid #DDD;
+    border-top: 0;
+    height: auto !important;
+    min-height: 250px;
+    padding: 8px;
+}
+.tab-content {}/* 出入库 */
+
+.not-mpr input {
+    margin: 0;
+    padding: 0;
+    text-indent: .5em;
+}
+.min-table th, .min-table td {
+    padding: 2px;
+}
+.min-table td input {
+    width: 85%;
+    padding: 2px;
+    height: 18px;
+    margin: 0;
+}
+.min-table tfoot .pagination {
+    margin: 0;
+}
+.text-show {
+    display: inline-block;
+    margin: 0 3px;
+    border: 0;
+    border-bottom: 1px solid #000;
+    background: none;
+}
+.content .workplace .head>.buttons>li {
+    padding-right: 8px;
+}
+.content .workplace .head>.buttons a {
+    display: inline-block;
+    line-height: 38px;
+    color: #FFF;
+}
+.form-search {
+    margin: 1%;
+    padding: 8px;
+}
+.form-search select {
+    width: auto !important;
+    min-width: 50px;
+    width: 50px;
+}
+.form-search select, .form-search button, .form-search input {
+    margin-right: 3px;
+}
+.form-search .type-date {
+    width: 85px;
+}
+.form-search .control-group {
+    margin: 0;
+}
+.form-search .control-label {
+    width: 120px;
+}
+.form-search .controls {
+    margin-left: 125px;
+}
+/* 订单管理 */
+
+.li-product li {
+    float: left;
+    display: inline;
+    padding: 2px;
+    position: relative;
+    width: 130px;
+    height: 90px;
+    margin: 0 8px 5px 0;
+    z-index: 1;
+    line-height: 16px;
+    word-break: break-all;
+    border: 1px solid #DDD;
+    background-color: #fff;
+}
+.wap-pic {
+    padding: 5px;
+    width: 120px;
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #FFF;
+    border: 1px solid #FFF;
+    border-width: 1px 2px 2px 1px;
+}
+.li-product li:hover {
+    z-index: 9;
+}
+.li-product li:hover .wap-pic {
+    width: 295px;
+    height: auto;
+    overflow: inherit;
+    border-color: #DDD;
+}
+.li-product li:hover .wap-pic dl {
+    visibility: visible;
+}
+.wap-products img {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin: 0 0 3px 3px;
+    border: 1px solid #DDD;
+    padding: 1px;
+}
+.wap-pic dl {
+    visibility: hidden;
+}
+.wap-products dl {
+    margin: 0;
+    padding: 0;
+}
+.wap-products dl dt, .wap-products dl dd {
+    float: left;
+    display: inline;
+    line-height: 22px;
+    border-bottom: 1px dotted #CCC;
+    margin: 0;
+    padding: 0;
+}
+.wap-products dl dt {
+    width: 15%;
+    text-align: right;
+}
+.wap-products dl dd {
+    width: 30%;
+    margin-right: 2%
+}
+.otitle {
+    display: block;
+}
+.price-strong {
+    color: red;
+}
+.tak-table {
+    border-collapse: collapse;
+    _border-collapse: separate;
+    table-layout: fixed;
+    border-spacing: 0;
+    margin-bottom: 5px;
+    width: 100%;
+    border: 1px solid #DDD;
+    background-color: #FFF;
+}
+.tak-table caption {
+    text-align: left;
+    height: 35px;
+    line-height: 35px;
+    background: #F7F7F7;
+    text-indent: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #DDD;
+    border-bottom-width: 0;
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+.tak-table thead th {
+    background-color: #F7F7F7;
+    border-bottom: 0px none;
+    height: 23px;
+    line-height: 23px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    color: #666;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#FFF));
+    background-image: -webkit-linear-gradient(top, #F7F7F7, #FFF);
+    background-image: -moz-linear-gradient(top, #F7F7F7, #FFF);
+    background-image: -ms-linear-gradient(top, #F7F7F7, #FFF);
+    background-image: -o-linear-gradient(top, #F7F7F7, #FFF);
+    background-image: linear-gradient(top, #F7F7F7, #FFF);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+}
+.tak-table tbody td, .tak-table tbody th {
+    height: 30px;
+    padding: 2px 5px;
+    border: 1px solid #DDD;
+    min-width: 85px;
+}
+.tak-table tbody th {
+    text-align: right;
+    background-color: #F7F7F7;
+    width: 10%;
+    margin-right: 3%;
+}
+.tak-table tfoot th, .tak-table tfoot td {
+    padding: 8px;
+}
+.tak-table tfoot tr td {
+    text-align: right;
+}
+.tak-table tbody td a {
+    color: #317EE7;
+}
+.tak-table tbody tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+.bor-error {
+    border: 1px solid red;
+}
+.action-fold caption {
+    background-image: url(../img/styles/default/menu_arrow_up.png);
+    background-repeat: no-repeat;
+    background-position: 98% center;
+    cursor: pointer;
+}
+table.active caption {
+    background-image: url(../img/styles/default/menu_arrow_down.png);
+}
+table.active tbody, table.active tfoot, table.active thead {
+    display: none;
+}
+.wap-flow-content {
+    display: none;
+}
+form.active .wap-flow-content {
+    display: block;
+}
+#flow-form .tak-tabelno caption {
+    text-indent: 0;
+}
+.itak-dr .dr {
+    margin: 0;
+}
+.empty p {
+    text-indent: 2em;
+}
+#content .not-data {
+    height: 45px;
+    line-height: 25px;
+    background-color: #FFF;
+}
+/*TbListView*/
+
+#list-views .pagination {
+    margin: 0;
+    float: right;
+}
+#list-views .summary {
+    text-indent: 2em;
+}
+.select-page {
+    width: auto !important;
+    min-width: 65px;
+    width: 65px;
+    float: left;
+    line-height: 25px;
+    height: 25px;
+}
+#list-views .more-info {
+    height: 16px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #FFF;
+    padding: 3px;
+}
+#list-views tbody tr {
+    cursor: pointer;
+}
+#list-views tr.active td, #list-views tbody tr:hover td {
+    background-color: #FCFCFC;
+}
+#list-views tr.active .more-info, #list-views tbody tr:hover .more-info {
+    height: auto;
+    overflow: visible;
+    border-color: red;
+    text-indent: 2em;
+    background-color: #FFF;
+}
+.more-list .more-load-info {
+    height: 45px;
+    background: #FFF url(img/loading.gif) no-repeat center center;
+}
+#content>.block-fluid {
+    /*transition: all 8s;*/
+}
+.load-content {
+    min-height: 200px;
+    background: #FFF url(../img/tak/loading.gif) no-repeat center center;
+}
+.load-content>.block-fluid, .load-content>.row-fluid {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)";
+}
+.modal-body .form-horizontal .control-label {
+    width: 100px;
+}
+.modal-body .form-horizontal .controls {
+    margin-left: 120px;
+}
+.errorMessage {
+    color: red;
+}
+.tak-order-status {
+    position: absolute;
+    right: 1%;
+    top: 2%;
+}
+@media only screen and (max-width: 800px) {
+    .tak-order-status {
+        opacity: .2;
+   }
+}
+#ibody .unedit td {
+    background-color: #ffffdd;
+}
+.label-horizontal {
+    margin-right: 8px;
+}
+.cursorPointer {
+    cursor: pointer;
+}
+.form-search .input-prepend input {
+    margin-right: 0;
+}
+.jstree-default .jstree-clicked {
+    width: 50%;
+}
+.row-form .input-prepend input[type="text"] {
+    height: 25px;
+}
+.swMain .row-form {
+    padding-bottom: 8px;
+}
+.swMain .span2 {
+    text-align: right;
+}
+.wap-loading, .data-loading {
+    min-height: 50px;
+    background: #FFF url(../img/tak/loading.gif) no-repeat center center;
+}
+.wap-loading {
+    position: relative;
+    opacity: .8;
+    height: 120px;
+    overflow: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=80)";
+}
+.data-loading {
+    opacity: .9;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=90)";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-indent: -999em;
+}
+#import input {
+    width: 85%;
+}
+.page-header {
+    margin-top: 5px;
+}
+#progress {
+    min-width: 800px;
+    position: relative;
+}
+.message {
+    padding: 25px 60px;
+    margin-top: -12px;
+}
+#progress h6 {
+    text-align: right;
+}
+#progress #btn-submit {
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+.list-tree li {
+    line-height: 25px;
+    border-bottom: 1px dotted #DDD;
+    list-style-position: inside;
+    list-style-type: square;
+}
+.tip-msg {
+    margin: 2px 8px;
+}
+.tip-title {} #list-more-search {
+    padding-top: 12px;
+    clear: both;
+    margin: 0;
+}
+#list-more-search ul {
+    margin: 0;
+    padding: 0;
+}
+#list-more-search li {
+    margin: 3px 0 2px 0;
+    list-style-type: none;
+    clear: both;
+}
+#list-more-search label {
+    float: left;
+    width: 85px;
+    padding-right: 3px;
+    line-height: 25px;
+    text-align: right;
+}
+#list-more-search input {
+    height: 18px;
+}
+#list-more-search .more-search-dlist {
+    padding-left: 95px;
+}
+label, input, button, select, textarea {
+    font-size: 12px;
+}
+.table-search tbody th {
+    text-align: right;
+}
+.table-search tfoot td, .table-search tfoot th {
+    border-bottom: 1px solid #DDD;
+}
+.table-search th, .table-search td {
+    padding: 5px;
+}
+.table-search select {
+    width: 120px;
+    margin-bottom: 0;
+}
+.table-search input {
+    margin: 0;
+    padding: 2px;
+    height: 20px;
+}
+.table-search span.required {
+    display: none;
+}
+/*movings*/
+
+.mov-product ol {
+    margin-bottom: 0;
+    padding: 0;
+    height: 60px;
+    overflow: hidden;
+    margin-left: 2px;
+    list-style-type: none;
+    transition: all 0.3s;
+}
+.move-clear-product ol {
+    padding-left: 15px;
+    height: auto;
+    overflow: visible;
+    list-style-type: decimal;
+}
+/**/
+
+.mov-products {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.mov-product a {
+    float: right;
+    cursor: pointer;
+}
+.move-clear-product .more-product {
+    display: none;
+}
+.more-product-hide {
+    display: none;
+}
+.move-clear-product .more-product-hide {
+    display: block;
+}
+/* ajax-modal */
+
+#ajax-modal .well {
+    min-height: 0;
+    padding: 0;
+}
+#ajax-modal .block, #ajax-modal .block-fluid {
+    margin-bottom: 0;
+}
+/** 产品出入库 **/
+
+#table-product input {
+    margin: 0;
+}
+input[type=number] {
+    -webkit-ime-mode: disabled;
+    -moz-ime-mode: disabled;
+    -ms-image-mode: disabled;
+    ime-mode: disabled;
+}
+/**工资车间管理**/
+
+.department .table input {
+    margin: 0;
+    width: 88%;
+    height: 15px;
+    line-height: 15px;
+}
+.department form {
+    margin: 0;
+}
+.department .pagination {
+    margin: 0;
+    float: right;
+}
+.department .btn {
+    margin: 0;
+}
+/**工时录入**/
+
+.wage-create td {
+    padding: 1px;
+    line-height: 22px;
+    vertical-align: middle;
+}
+.wage-create .type-date-w {
+    width: 80px;
+}
+.wage-create input {
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    width: 99%;
+}
+.wage-create-select {
+    min-width: 220px !important;
+    position: relative;
+}
+.wage-create tbody td.error {
+    border: 1px solid red;
+}
+.row-prodcut {
+    border-bottom: 2px solid #DDD;
+    margin: 3px 0;
+}
+.lcol3, .lcol2, .lcol1 {
+    float: left;
+}
+.lcol3 {
+    width: 74.55%;
+}
+.lcol2 {
+    width: 49.55%;
+}
+.lcol1 {
+    width: 24.55%;
+    text-align: right;
+}
+.wage-create tbody .rows-bottom td {
+    border-bottom-color: #335A85;
+}
+/**
+ * *workflow
+ */
+
+.without-head .table {
+    border-top: 1px solid #DDD;
+}
+.without-head .table thead th {
+    background-color: #F9F9F9;
+}
+
+/*弹窗 iframe*/
+
+#ibody .mod-dialog .ui-dialog-content {
+    padding: 2px;
+    border: none !important;
+    -moz-box-shadow: 0 3px 10px #DDD;
+    -webkit-box-shadow: 0 3px 10px #DDD;
+    box-shadow: 0 3px 10px #DDD;
+    overflow: hidden;
+    background: #FFF url(../img/tak/loading.gif) no-repeat center center;
+}
+#ibody .mod-dialog .ui-dialog-header {
+    background-image: url("../img/styles/default/backgrounds/box-head.jpg");
+    border-color: #315680;
+    color: #FFF;
+}

@@ -1,0 +1,52 @@
+/**
+* Rights module core style sheet file.
+*
+* @author Christoffer Niska
+* @copyright Copyright &copy; 2008 Christoffer Niska
+* @since 0.9.11
+*/
+
+#rights .form .text-field { width:320px; }
+
+#rights #updateAuthItem .parents,
+#rights #updateAuthItem .children { margin-bottom:30px; }
+
+#rights .type-column { width:100px; }
+#rights .actions-column { width:80px; text-align:right; }
+
+#rights .parent-table,
+#rights .child-table,
+#rights .user-assignment-table { width:420px; }
+
+#rights .assignment-table td { vertical-align:top; }
+#rights .assignment-table .role-column,
+#rights .assignment-table .task-column,
+#rights .assignment-table .operation-column { width:25%; }
+#rights .permission-table .inherited-item { cursor:pointer; }
+
+/**
+* Flash message style.
+*/
+
+.flashes {
+	width:910px;
+	height:40px;
+	position:absolute;
+	top:60px;
+	left:20px;
+}
+.flash {
+	margin:0;
+	padding:8px 12px;
+	font-size:12px;
+	font-style:italic;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+}
+.flash.success { color:#007700; background-color:#e0f8dd; }
+.flash.error { color:#7a0000; background-color:#fdd9d9; }
+
+body #mainmenu,
+body .grid-view table.items th{
+	background-color: #4D9AC6;
+}

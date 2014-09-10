@@ -1,0 +1,75 @@
+  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0; }
+body, button, input, select, textarea { font: 10px/1.5 tahoma, arial, \5b8b\4f53; color:#555; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; }
+code, kbd, pre, samp { font-family: courier new, courier, monospace; }
+small { font-size: 12px; }
+ul, ol { list-style: none; }
+a { text-decoration: none; color:#555; cursor:pointer; }
+a:hover { text-decoration: none; color:#3B87B1; }
+sup { vertical-align: text-top; }
+sub { vertical-align: text-bottom; }
+legend { color: #000; }
+fieldset, img { border: 0; }
+button, input, select, textarea { font-size: 100%; }
+/*table { border-collapse: collapse; border-spacing: 0; }*/
+
+.not-printf,
+.hide{
+    display:none;
+}
+.show-print{
+	display: block;
+}
+
+html {height:auto; overflow:auto; }
+body{
+    font: 11px/1.5 tahoma, arial, \5b8b\4f53;
+    color: #555;
+    background: #fff;    
+    width:95%;
+    margin:8px auto;
+}
+body,table td,table th{
+	font-size:11px !important;
+}
+
+.grid{float: left;padding: 18px;border:1px solid #cfcfcf;background: #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.H{font-size:24px;font-weight:bold;text-align: center;}
+.R{text-align: right;}
+.B{font-weight: bold;}
+.L{
+	text-align: left;
+}
+table{border-collapse:collapse;}
+table.caption{margin-bottom: 5px;}
+table.list{border:1px solid #666;}
+table.list td,table.list th{padding: 5px 5px;border:1px solid #666;}
+table.list thead th{text-align: center;font-weight: bold;}
+
+
+.grid{float: none;padding: 0;border:none;background: none;box-shadow:none;}
+table.caption{margin-bottom: 0;}
+table.list{width:100%;}
+table.list td{padding: 1px;}
+table.list th{}
+
+
+thead{word-break: keep-all;white-space:nowrap;}
+
+button{
+	margin: 0 8px;
+	padding:0 8px;
+	line-height: 25px;
+}
+.footer-print{
+	margin: 12px auto;
+	text-align: center;
+}
+
+@media print{
+	.footer-print{
+		display: none;
+	}
+}

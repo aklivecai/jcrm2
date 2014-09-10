@@ -1,0 +1,44 @@
+.navbar-inner {
+    padding: 0;
+}
+#ibody .navbar .container, #ibody .menu .navigation > li, #ibody .menu .navigation > li.openable {
+    background-color: #CCC;
+}
+#ibody .navbar .container {
+    background-image: url("../img/styles/default/backgrounds/box-head.jpg");
+}
+#ibody .silver .navbar .container, #ibody .silver .navigation > li.openable {
+    background: #576774 url("../img/styles/silver/backgrounds/box-head.jpg");
+}
+#ibody .dark .navbar .container, #ibody .dark .navigation > li.openable {
+    background: #1C1C1C url("../img/styles/dark/backgrounds/box-head.jpg");
+}
+#ibody .marble .navbar .container, #ibody .marble .navigation > li.openable {
+    background: #74837C url("../img/styles/marble/backgrounds/box-head.jpg");
+}
+#ibody .red .navbar .container, #ibody .red .navigation > li.openable {
+    background: #5B1E0C url("../img/styles/red/backgrounds/box-head.jpg");
+}
+#ibody .green .navbar .container, #ibody .green .navigation > li.openable {
+    background: #476608 url("../img/styles/green/backgrounds/box-head.jpg");
+}
+#ibody .lime .navbar .container, #ibody .lime .navigation > li.openable {
+    background: #95B611 url("../img/styles/lime/backgrounds/box-head.jpg");
+}
+#ibody .purple .navbar .container, #ibody .purple .navigation > li.openable {
+    background: #913F7F url("../img/styles/purple/backgrounds/box-head.jpg");
+}
+
+/*ie8-ie9*/
+.input-prepend input[class*=span] {   
+    min-height: 20px;  
+}
+@media screen and (min-width:0\0) { 
+    .input-prepend input[class*=span] {            
+            min-height: 30px;
+    }/* IE9 , IE10 ,IE11 rule sets go here */
+}
+.control-group .input-prepend input[readonly=readonly]{
+    min-height: 28px; 
+    margin-top:-2px;
+}

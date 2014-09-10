@@ -1,0 +1,194 @@
+@charset"UTF-8";
+/**
+ * 
+ * @authors aklivecai (aklivecai@gmail.com)
+ * @date    2014-09-08 10:12:36
+ * @version $Id$
+ */
+
+.flow-tools-wap {
+    height: 80px;
+    min-height: 80px;
+}
+.flow-tools-body {
+    height: auto !important;
+    min-height: 30px;
+    padding: 5px;
+    position: fixed;
+    bottom: 1px;
+    right: 0;
+    background-color: #FFF;
+    width: 99.99%;
+    -moz-box-shadow: 0 3px 10px #888;
+    -webkit-box-shadow: 0 3px 10px #888;
+    box-shadow: 0 3px 10px #888;
+}
+.tools-note {
+    width: 99.2%;
+    margin: 2px auto;
+}
+/*forminfo*/
+
+.iform-content {
+    font-size: 12px;
+}
+.wf_field_show {
+    display: inline-block;
+}
+.iform-content label {
+    display: inline-block;
+    margin: 0;
+    font-size: 100%;
+}
+.iform-content input[type="text"], .iform-content input[type="number"], .iform-content input[type="email"] {
+    border: 1px solid #4B4B4B;
+    background-color: #FEEDDE;
+    padding: 0;
+    height: 19px;
+    line-height: 19px;
+    overflow: hidden;
+}
+.iform-content .wf_field {
+    border: 1px solid #4B4B4B;
+    background-color: #FEEDDE;
+}
+.iform-content .wf_field_write {
+    background-color: #BCE9BA;
+}
+.iform-content p textarea {
+    display: inline-block;
+    vertical-align: top;
+}
+.iform-content table {
+    margin-bottom: 10px;
+    border-collapse: collapse;
+    word-break: break-all;
+}
+.iform-content td, .iform-content th {
+    padding: 3px;
+    vertical-align: middle;
+    border: 1px solid #000;
+    /*border: 1px solid #000 !important;*/
+}
+.iform-content caption {
+    border: 1px dashed #000;
+    border-bottom: 0;
+    padding: 3px;
+    text-align: center;
+}
+.iform-content td {
+    box-sizing: border-box;
+}
+.iform-content td p {
+    margin: 0;
+    padding: 0;
+    margin: 5px 0;
+}
+.iform-content.load-data {
+    background: #FFF url(../../img/tak/loading.gif) no-repeat 85% 35px;
+    opacity: .5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
+    position: relative;
+}
+.load-data:before {
+    content: '加载中...';
+    display: block;
+    position: absolute;
+    left: 78%;
+    top: 10px;
+    color: red;
+}
+input.wf_field, textarea.wf_field, select.wf_field {
+    border: 1px solid #4B4B4B;
+    background-color: #FEEDDE;
+}
+
+button[type=submit]{
+	position: relative;
+}
+
+@-webkit-keyframes loading {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-moz-keyframes loading {
+	from {
+		-moz-transform: rotate(0deg);
+	}
+	to {
+		-moz-transform: rotate(360deg);
+	}
+}
+@-o-keyframes loading {
+	from {
+		-o-transform: rotate(0deg);
+	}
+	to {
+		-o-transform: rotate(360deg);
+	}
+}
+@keyframes loading {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.btn-loading{
+	position: relative;
+	color: none;
+	text-indent: -5em;
+}
+button[type=submit]{
+	-webkit-transition:all 0.3s ease;
+	-moz-transition:all 0.3s ease;
+	-o-transition:all 0.3s ease;
+	-ms-transition:all 0.3s ease;	
+	transition:all 0.3s ease;	
+}
+.btn-loading:after {
+	width: 85px;
+	display: inline-block;
+	content: "提交中...";
+	color: #333;
+	text-indent: 0em;	
+
+	width:70px\0;	
+	text-indent: 1em\0;
+}
+.btn-loading:before {
+	display: inline-block;
+	position: absolute;
+	top: 20%;
+	right: 15%;
+	border: 1px solid #00B7EE;
+	border-right: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	height: 12px;
+	width: 12px;
+	border-radius: 65%;
+	-webkit-animation: loading 1s infinite linear;
+	-moz-animation: loading 1s infinite linear;
+	-o-animation: loading 1s infinite linear;
+	animation: loading 1s infinite linear;
+	content: '';
+	display:none\0;
+}
+@media all and (min-width:0) { /* 2. */
+.btn-loading:after {
+	width:90px\9;
+	text-indent: 2.2em\9;
+}	
+/* IE9 only, 现在IE10也支持 */
+    /* Ps:老外的方法都是\0，根本没考虑Opera */
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { /* 3. */
+   .btn-loading:before{
+   	display: block;
+   	} /* IE10+ */
+}

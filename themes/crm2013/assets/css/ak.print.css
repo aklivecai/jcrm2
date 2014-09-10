@@ -1,0 +1,15 @@
+/* Copyright (C) 2004-2009 Mike Pall.
+ *
+ * You are welcome to use the general ideas of this design for your own sites.
+ * But please do not steal the stylesheet, the layout or the color scheme.
+ */
+.flush {
+  clear: both;
+  visibility: hidden;
+}
+input{
+	border: 0 !important;
+}
+.hide, .noprint, #nav {
+  display: none !important;
+}

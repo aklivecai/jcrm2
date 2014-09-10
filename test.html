@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="/github/crm/assets/cacaea1b/\css/plupload.queue.css" />
+
+<script type="text/javascript" src="/github/crm/assets/995928b8/jquery.js"></script>
+<script type="text/javascript" src="/github/crm/assets/cacaea1b/plupload.full.min.js"></script>
+<script type="text/javascript" src="/github/crm/assets/cacaea1b/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+	<div id="console" style="color:red;"></div>
+	<div id="filelist">运行方式.</div>
+	<a id="pickfiles" href="#">选择文件</a>
+	<a id="uploadfiles" href="#">上传文件</a>
+</div>
+    
+<script type="text/javascript">
+// Custom example logic
+var uploader = new plupload.Uploader({
+	runtimes : 'flash,html5,html4',
+	browse_button : 'pickfiles', // you can pass in id...
+	container: document.getElementById('container'), // ... or DOM Element itself
+	url : '/github/crm/it/upload',
+	flash_swf_url : '/github/crm/assets/cacaea1b/Moxie.swf',
+	silverlight_xap_url : '/github/crm/assets/cacaea1b/Moxie.xap',	
+	filters : {
+		max_file_size : '10mb',
+		mime_types: [
+			{'title' : "Image files", "extensions" : "jpg,gif,png,jpeg"},
+			{'title' : "Zip files", "extensions" : "zip,rar"},
+			{'title' : "Doc files", "extensions" : "doc,docx,xls,xlsx,rtf,txt"}
+		]
+	},
+
+	init: {
+		PostInit: function(up) {
+
+			$('#filelist').html("<div>上传方式: " + up.runtime + "</div>");
+			document.getElementById('uploadfiles').onclick = function() {
+				// console.log(uploader.settings);
+				if (uploader.settings.url.indexOf('?')) {
+					uploader.settings.url = uploader.settings.url+'?name=time'
+				};
+				uploader.start();
+				return false;
+			};
+		},
+		FilesAdded: function(up, files) {
+			plupload.each(files, function(file) {
+				document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b><a data-to="'+file.id+'" href="javascript:;" class="remove">Remove</a></div>';
+			});
+		},
+		UploadProgress: function(up, file) {
+			document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+		},
+		Error: function(up, err) {
+			console.log(err);
+			document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+		}
+
+	}
+});
+
+uploader.init();
+    uploader.bind('FileUploaded', function(up, file,msg) {
+    	console.log(msg.response);
+    	console.log($.parseJSON(msg.response));
+    	console.log(file);    	
+    	// console.log(up);
+        $('#' + file.id + " b").html("100%");
+    });
+	    $('#filelist').on('click',' a.remove',function(event) {
+	    	event.preventDefault();
+	    	var id = $(this).attr('data-to');
+	    	console.log(uploader.getFile(id));
+	      	uploader.removeFile(uploader.getFile(id));
+	      	$('#' + id).remove();
+	    });		
+</script>
+
+</body>
+</html>

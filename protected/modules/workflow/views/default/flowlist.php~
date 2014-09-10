@@ -1,0 +1,24 @@
+<div class="span2"><h2>正在进行的工作流</h2></div>
+<div class="container">
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'type'=>'striped bordered condensed',
+    'dataProvider'=>$gridDataProvider,
+    'template'=>"{items}",
+    'columns'=>array(
+        array('name'=>'id', 'header'=>'#'),
+        array('name'=>'proj_id', 'header'=>'项目ID'),
+        array('name'=>'user', 'header'=>'处理人'),
+        array('name'=>'time', 'header'=>'处理期限'),
+        array('name'=>'describe', 'header'=>'描述'),
+    array(
+        'htmlOptions' => array('nowrap'=>'nowrap'),
+        'class'=>'bootstrap.widgets.TbButtonColumn',
+        'viewButtonUrl'=>null,
+        'updateButtonUrl'=>null,
+        'deleteButtonUrl'=>null,
+    )
+    ),
+));
+?>
+</div>

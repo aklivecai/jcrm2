@@ -1,0 +1,4 @@
+# Robots For AK
+User-agent: *
+Disallow: /
+Disallow: /*?*
