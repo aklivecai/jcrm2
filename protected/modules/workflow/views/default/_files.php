@@ -1,3 +1,8 @@
+<?php
+
+$attachs = $model->getFiles();
+Tak::regScript('attachs-data', 'var attachs= ' . CJSON::encode($attachs) . ';', CClientScript::POS_HEAD);
+?>
 <div id="wap-files">
     <div class="mod hide" data-bind="css: { hide: (lines().length==0) }">
         <div class="mod-head">附件信息</div>
@@ -30,10 +35,10 @@
                 <td data-bind="text: time"></td>
                 <td>
                 <a  target="_blank" data-bind="attr:{href:$root.getDown(itemid)}">下载</a>
-		    <!-- ko if: del -->
+            <!-- ko if: del -->
                                     <input type="hidden" name="files[]" data-bind="value:itemid" />
-		        <a href="javascript:;" data-bind="click:$root.removeI,attr:{id:itemid}">删除</a>
-		    <!-- /ko -->                
+                <a href="javascript:;" data-bind="click:$root.removeI,attr:{id:itemid}">删除</a>
+            <!-- /ko -->                
                 </td>
         </tr>
 </script>

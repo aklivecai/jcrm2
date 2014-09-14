@@ -54,7 +54,7 @@ $navs = array(
             '/workflow/production/index'
         ) ,
         'active' => ($controlId == 'production') ,
-        'visible' => true,
+        'visible' => Tak::checkAccess('Workflow.*') ,
     ) ,
 );
 
@@ -91,6 +91,7 @@ $listMenu = array(
 
 <div class="block-fluid">
     <div class="row-fluid">
+
 <?php
 $this->widget('bootstrap.widgets.TbNavbar', array(
     'brand' => '',
@@ -118,8 +119,37 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
         ) ,
     ) ,
 ));
+
+if (Tak::checkSuperuser()) {
+    echo '&nbsp;&nbsp;','切换账号:', JHtml::hiddenField('', Tak::getCid() , array(
+        'id' => 'changeMid',
+        'class' => 'select-manageid',
+        'placeholder' => '模拟切换用户',
+        'style' => 'width:250px',
+    ));
+}
 echo $content;
 ?>
 </div>
 </div>
+<script type="text/javascript">
+    +jQuery(function($) {
+        $.ajax({
+             type: "get",
+             async: false,
+             url: createUrl('workflow/default/GetRunNum'),
+             dataType: "json",
+             success: function(json){
+                 if (json.status==1) {
+                    $('.remind').addClass('exist-info');
+                 };
+             }
+         });        
+        $('#changeMid').on('change',function(){
+            iAjax({
+                url: createUrl('workflow/default/ChangeUser/'+$('#changeMid').val())
+            });            
+        });
+    })
+</script>
 <?php $this->endContent(); ?>

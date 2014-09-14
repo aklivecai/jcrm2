@@ -6,44 +6,54 @@
  * @version $Id$
  */
 $this->breadcrumbs[] = Tk::g('Handle');
-$this->widget('bootstrap.widgets.TbGridView', array(
-    'type' => 'striped bordered condensed',
-    'dataProvider' => $gridDataProvider,
-    'enablePagination' => true,
-    'enableSorting' => false,
-    'template' => "{items}{pager}",
-    'emptyText' => '没有数据.',
-    'columns' => array(
-        array(
-            'name' => 'run_id',
-            'header' => '#'
-        ) ,
-        array(
-            'name' => 'flow_name',
-            'header' => '流程名称'
-        ) ,
-        array(
-            'name' => 'begin_user',
-            'header' => '创建人',
-            'value' => 'Tool::getUname($data->begin_user)'
-        ) ,
-        array(
-            'name' => 'prc_data.time',
-            'header' => '处理期限'
-        ) ,
-        // array('name'=>'run_prc', 'header'=>'处理期限'),
-        array(
-            'name' => 'prc_data.describe',
-            'header' => '描述'
-        ) ,
-        array(
-            'name' => '',
-            'header' => '',
-            'value' => 'Yii::app()->controller->writeButtons($data)'
-        ) ,
-        // array('name'=>'step_no', 'header'=>'步骤号'),
-        
-        
+
+$options = Tak::gredViewOptions();
+$options['dataProvider'] = $model->searchByUid();
+$columns = array(
+    array(
+        'name' => 'run_id',
+        'header' => ''
     ) ,
-));
+    array(
+        'name' => 'title',
+    ) ,
+    array(
+        'name' => 'start_time',
+        'value' => 'Tak::timetodate($data->start_time,6)',
+        'headerHtmlOptions' => array(
+            'style' => 'width: 125px'
+        ) ,
+    ) ,
+    array(
+        'name' => 'flow_name',
+        'header' => '流程'
+    ) ,
+    array(
+        'name' => 'step_name',
+    ) ,
+    array(
+        'name' => 'cuser_name',
+        'header' => '处理人',
+    ) ,
+    array(
+        'header' => '步骤转入时间',
+        'value' => 'Tak::timetodate($data->modified_time,6)',
+        'headerHtmlOptions' => array(
+            'style' => 'width: 125px'
+        ) ,
+    ) ,
+    array(
+        'name' => 'describe',
+        'header' => '描述'
+    ) ,
+    array(
+        'name' => 'status',
+    ) ,
+    array(
+        'header' => '操作',
+        'value' => 'Yii::app()->getController()->getLink($data->primaryKey)',
+    ) ,
+);
+$options['columns'] = $columns;
+$widget = $this->widget('bootstrap.widgets.TbGridView', $options);
 ?>

@@ -6,16 +6,6 @@ class WorkflowController extends Controller {
         $this->initData();
         parent::init();
     }
-    //ajax信息返回值,1成功,0失败,info提示信息
-    public function message($info, $status = true) {
-        header('Content-Type: application/json');
-        $tags = array(
-            'status' => $status ? 1 : 0,
-            'info' => $info,
-        );
-        echo CJSON::encode($tags);
-        exit;
-    }
     //弹窗中提示信息,关闭当前窗口
     public function msgTip($info) {
         $this->setLayoutWin();
@@ -42,26 +32,31 @@ class WorkflowController extends Controller {
                 );
             }
         } else {
-            $this->listWorks[] = array(
-                'label' => '还没有审批单，点击新建',
-                'url' => array(
-                    'production/action',
-                ) ,
-                'linkOptions' => array(
-                    'class' => 'target-win',
-                    "data-width" => 320,
-                    "data-height" => 180
-                ) ,
-            );
+            if (Tak::checkAccess('Workflow.*')) {
+                $this->listWorks[] = array(
+                    'label' => '还没有审批单，点击新建',
+                    'url' => array(
+                        'production/action',
+                    ) ,
+                    'linkOptions' => array(
+                        'class' => 'target-win',
+                        "data-width" => 320,
+                        "data-height" => 180
+                    ) ,
+                );
+            } else {
+                $this->listWorks[] = array(
+                    'label' => '还没有审批单',
+                );
+            }
         }
     }
-
-/**
- * [loadModel description]
- * @param  [type]  $id    [description]
- * @param  boolean $error [description]
- * @return [type]         [description]
- */
+    /**
+     * [loadModel description]
+     * @param  [type]  $id    [description]
+     * @param  boolean $error [description]
+     * @return [type]         [description]
+     */
     public function loadModel($id, $error = true) {
         if ($this->_model === null) {
             $id = $this->getSId($id);

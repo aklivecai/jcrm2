@@ -52,7 +52,9 @@ class StepConditionAction extends CAction {
                     if (count($ids) > 0) {
                         // Tak::KD($ids,1);
                         // Tak::KD(sprintf('con_id IN(%s)', implode(',', $ids)),1);
-                        $_model->deleteAll(sprintf('con_id IN(%s)', implode(',', $ids)));
+                        $sql = sprintf(' step_id=%s AND  con_id IN (%s) ', $modelStep->primaryKey, implode(',', $ids));
+                        $_model->deleteAll($sql);
+                        $modelStep->upConditions();
                     }
                     $this->message('');
                 break;
@@ -75,6 +77,7 @@ class StepConditionAction extends CAction {
                         $_model->html = sprintf('[%s]  %s  %s', $files[$_model->field_id]['field_name'], $types[$_model->type], $_model->value);
                         $_model->save();
                         $msg = $_model->primaryKey;
+                        $modelStep->upConditions();
                     } else {
                         $msg = Tak::getMsgByErrors($errors);
                         $status = false;

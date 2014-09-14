@@ -99,7 +99,8 @@ class SettingFormAction extends CAction {
                 'status' => 0,
             );
         }
-        echo CJSON::encode($tags);
+        $this->getController()->message($tags['info'], $tags['status']);
+        // echo CJSON::encode($tags);
         exit;
     }
 }

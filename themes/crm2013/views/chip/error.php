@@ -11,7 +11,7 @@ $message = Tak::getMsgByErrors($errors);
 ?>
 <div class="alert alert-error">
     <h4>错误提示</h4>
-    <?php echo $message; ?>
+    <?php echo html_entity_decode($message); ?>
 </div>
 
 <p>

@@ -1,6 +1,24 @@
 <?php
 $tak_time = time();
 class Ak {
+    public static function L() {
+        if (Yii::app()->request->isAjaxRequest) {
+            echo "/*";
+        }
+        self::KD("\n------------------------------------\n");
+        $list = func_get_args();
+        foreach ($list as $key => $value) {
+            self::KD($value);
+        }
+        self::KD("\n------------------------------------\n");
+        
+        if (Yii::app()->request->isAjaxRequest) {
+            echo "*/";
+        }
+        if (func_num_args() > 1 && $list[0] && is_bool($list[0])) {
+            exit;
+        }
+    }
     public static function numAdd($n1, $n2) {
         $result = bcadd($n1, $n2);
         if (strpos($result, '.')) {
@@ -395,7 +413,42 @@ class Ak {
         $result = str_replace(':00', '', $result);
         return $result;
     }
-    
+    /**
+     * 两个时间的间隔
+     * @param  [type]  $begin_time [description]
+     * @param  integer $end_time   [description]
+     * @return [type]              [天,小时,分钟,秒,刚刚]
+     */
+    public function timediff($begin_time, $end_time = 0) {
+        if (!$end_time || $end_time == 0) {
+            $end_time = time();
+        }
+        if ($begin_time < $end_time) {
+            $starttime = $begin_time;
+            $endtime = $end_time;
+        } else {
+            $starttime = $end_time;
+            $endtime = $begin_time;
+        }
+        $timediff = $endtime - $starttime;
+        $result = 0;
+        if ($timediff > 86400) {
+            $result = floor(intval($timediff / 86400)) + 1;
+            $result.= '天';
+        } elseif ($timediff > 3600) {
+            $result = floor($timediff / 3600) + 1;
+            $result.= '小时';
+        } elseif ($timediff > 60) {
+            $result = floor($timediff / 60) + 1;
+            $result.= '分钟';
+        } elseif ($timediff > 0) {
+            $result = $timediff;
+            $result.= '秒';
+        } elseif ($timediff == 0) {
+            $result = "刚刚";
+        }
+        return $result;
+    }
     public static function getNums($stocks) {
         $result = sprintf('%01.4f', $stocks);
         $s = explode('.', $result);
@@ -407,7 +460,7 @@ class Ak {
     public static function format_price($val = "0.000", $currency = "￥", $ifval = false) {
         if ($val > 0) {
             $result = self::getNums($val);
-            $result = $currency  . $result;
+            $result = $currency . $result;
         }
         return $result;
     }
@@ -738,7 +791,7 @@ class Ak {
         return $value;
     }
     /*
-       获取文件路径
+        获取文件路径
         48d4cb4ef423f858a9576a4e75ecd598ae966a1d -- 48/d4/cb/4e/48d4cb4ef423f858a9576a4e75ecd598ae966a1d
     */
     public static function getPathBySplitStr($str) {
@@ -748,7 +801,7 @@ class Ak {
         return $path;
     }
     /*
-    生成目录
+        生成目录
     */
     public static function MkDirs($dir, $mode = 0777, $recursive = true) {
         if (is_null($dir) || $dir == "") {
@@ -766,6 +819,7 @@ class Ak {
         $dir = Yii::app()->params['uploadUser'];
         if (YII_DEBUG) {
             // $dir = '/k' . Yii::app()->getBaseUrl() . $dir;
+            
             
         }
         if (!$uid) {
@@ -1049,19 +1103,19 @@ class Ak {
     }
 }
 /*
-  $id = "922222222222222";
-//$id = '131970169159123104640404064868224';
-
-$ids = "131970169159123138416918185882704";
-$ids_s = base_convert($ids,10,36);
-echo $ids_s ;
-echo "\n";
-$ids_v = base_convert($ids_s,36,10);
-echo $ids_v;
-echo "\n";
-$str = Ak::setCryptNum($id);
-echo $str;
-echo "\n";
-echo Ak::getCryptNum($str);
+    $id = "922222222222222";
+    //$id = '131970169159123104640404064868224';
+    
+    $ids = "131970169159123138416918185882704";
+    $ids_s = base_convert($ids,10,36);
+    echo $ids_s ;
+    echo "\n";
+    $ids_v = base_convert($ids_s,36,10);
+    echo $ids_v;
+    echo "\n";
+    $str = Ak::setCryptNum($id);
+    echo $str;
+    echo "\n";
+    echo Ak::getCryptNum($str);
 */
 // echo Tak::setCryptKey(61741284720117273);

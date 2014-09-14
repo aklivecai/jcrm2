@@ -1,4 +1,4 @@
-/*! jcrm 2014.09.03 21:32 */
+/*! jcrm 2014.09.14 18:21 */
 /* Small icons*/
 [class*="isw-"],[class*="isb-"]{ margin-left: 10px; padding: 11px 0px; width: 16px; height: 16px; font-size: 14px; font-weight: normal; display: block; float: left;}
 [class*="block"] [class*="isw-"], [class*="block"] [class*="isb-"] { display: inline-block; padding: 1px 0px 0px; margin-right: 5px; margin-left: 0px; line-height: 22px;}
@@ -5506,6 +5506,7 @@ input[type=number] {
 .without-head .table thead th {
     background-color: #F9F9F9;
 }
+
 /*弹窗 iframe*/
 
 #ibody .mod-dialog .ui-dialog-content {
@@ -5522,27 +5523,30 @@ input[type=number] {
     border-color: #315680;
     color: #FFF;
 }
-/*确认提示*/
 
-#ibody .itips .ui-dialog-body {
-    padding: 8px;
+.exist-info{
+    position: relative !important;
 }
-#ibody .itips .ui-dialog-content {
-    padding: 2px;
-    border: none !important;
+@-webkit-keyframes salePulse {
+    from { background-color: #a00; }
+    50% { background-color: #c00; -webkit-transform:scale(1.1); }
+    to { background-color: #a00; }
 }
-#ibody .itips p {
-    margin: 0 !important;
-}
-#ibody .itips .ui-dialog-footer {
-    padding: 0 5px 5px 5px;
-}
-#ibody .itips .ui-dialog-footer button {
-    padding: 3px 5px;
-    font-size: 12px;
-}
-/*提示*/
+.exist-info:before{
+    content: ' ';
+    background:#c00; /* fallback for non-webkit browsers */
+    display:block; /* or it wont work */
+    width: 12px;
+    height: 12px;
+    text-align:center;
+    border-radius:3em;
 
-.msg-show .ui-dialog-body{
-    padding: 5px !important;
+    position: absolute;
+    top: 5px;
+    left: 25px;
+
+    -webkit-animation-name:salePulse;
+    -webkit-animation-duration:1s;
+    -webkit-animation-iteration-count:infinite;
+
 }

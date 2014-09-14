@@ -12,7 +12,7 @@ if (!$model->isNewRecord) {
 } else {
     $files_val = array();
 }
-$files_attr = $step->getFieldsBySql();
+$files_attr = $stepInfo->getFieldsBySql();
 $_htmls = array();
 $strWap = '<span  id="%s">%s</span>';
 $strFile = '<span class="wf_field_show" style="%s">%s</span>';
@@ -25,9 +25,17 @@ foreach ($files as $value) {
     $attr = isset($files_attr[$__id]) ? $files_attr[$__id] : false;
     if ($attr && $attr['show'] == 1) {
         $val = isset($files_val[$__id]) ? $files_val[$__id] : null;
-        if ($attr['write'] == 1) {
-            $odata = CJSON::decode($value->odata);
+        if ($attr['write'] == 1 || $value->isShow()) {
+            $strOdata = $value->odata;
+            if ($val != null && $value->otype == 'checkbox') {
+                //清空默认值
+                $strOdata = str_replace('"checked":true', '"checked":0', $strOdata);
+            }
+            $odata = CJSON::decode($strOdata);
             $odata['must'] = $attr['must'];
+            if ($attr['write'] == 0) {
+                $odata['disabled'] = 1;
+            }
             $odata['id'] = $value->getSId();
             if ($val != null) {
                 $odata['dvalue'] = $val;

@@ -17,11 +17,11 @@
 
 Yii::app()->clientScript->registerCoreScript('history');
 Yii::app()->bootstrap->register();
-$this->regScriptFile('jcrm.min.js?t=201410');
+$this->regScriptFile('jcrm.min.js?t=201411');
 
 
 $this->regCssFile(array(
-    YII_DEBUG ? 'jcrm.css' : 'jcrm.css?t=201410',
+    YII_DEBUG ? 'jcrm.css' : 'jcrm.css?t=201411',
 ));
 
 $scrpitS = array(
@@ -64,7 +64,7 @@ $(document).on('click','.target-win', function(event) {
 END;
 Tak::regScript('target-win', $targetWin, CClientScript::POS_END);
 ?>
-    <script type="text/javascript" src="<?php echo $this->getAssetsUrl(); ?>js/lib.js?20140620"></script>
+    <script type="text/javascript" src="<?php echo $this->getAssetsUrl(); ?>js/lib.js?20140622"></script>
   </head>
 
   <body id="ibody" class="<?php echo Yii::app()->user->getState('themeSettings_bg'); ?>" >

@@ -39,17 +39,17 @@ $form = $this->beginWidget('CActiveForm', array(
             <tbody class="ibody-edit">
                 <tr>
                     <th>
-                        <?php echo $form->labelEx($model, 'flow_name'); ?></th>
+                        <?php echo $form->labelEx($model, 'title') ?></th>
                     <td align="top">
-                        <?php echo $form->textField($model, 'flow_name',array('requiredx'=>'required')); ?>
-                        <?php echo $form->error($model, 'flow_name'); ?>
+                        <?php echo $form->textField($model, 'title',array('requiredx'=>'required')) ?>
+                        <?php echo $form->error($model, 'title') ?>
                     </td>
 
                     <th>
-                        <?php echo $form->labelEx($model, 'describe'); ?></th>
+                        <?php echo $form->labelEx($model, 'describe') ?></th>
                     <td>
-                        <?php echo $form->textArea($model, 'describe',array('requiredx'=>'required')); ?>
-                        <?php echo $form->error($model, 'describe'); ?>
+                        <?php echo $form->textArea($model, 'describe',array('requiredx'=>'required')) ?>
+                        <?php echo $form->error($model, 'describe') ?>
                     </td>
                 </tr>
             </tbody>
@@ -59,20 +59,15 @@ $form = $this->beginWidget('CActiveForm', array(
 <?php $this->renderPartial('_forminfo', array(
     'model' => $model,
     'fowForm' => $fowForm,
-    'step' => $step,
+    'stepInfo' => $stepInfo,
 )); ?>
 
-<?php $this->renderPartial('_files', array(
-    'model' => $model,
-    'fowForm' => $fowForm,
-    'step' => $step,
-)); ?>
+<?php $this->renderPartial('_files',array('model'=>$model)); ?>
 <div class="flow-tools-wap">
     <div class="flow-tools-body">
-    <textarea name="" placeholder="请填写您的办理理由" class="tools-note"></textarea>
-    <div>
+    <div class="wap-btns">
         <span id="add-file">添加附件</span>
-        <button class=" btn" type="submit">提交</button>
+        <button class=" btn btn-primary" type="submit">提交</button>
     </div>
     </div>
 </div>

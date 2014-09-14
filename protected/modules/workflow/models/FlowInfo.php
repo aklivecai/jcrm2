@@ -50,11 +50,8 @@ class FlowInfo extends DbiRecod {
     }
     //默认继承的搜索条件
     public function defaultScope() {
-        $condition = array();
-        if ($this->hasAttribute('fromid')) {
-            $condition[] = 'fromid=' . Ak::getFormid();
-        }
-        $arr['condition'] = implode(" AND ", $condition);
+        $arr = parent::defaultScope();
+        $arr['order'] = 'add_time DESC ';
         return $arr;
     }
     protected function beforeSave() {

@@ -404,10 +404,8 @@ jQuery(function($) {
         return false;
     });
     $('.logout').on('click', function(event) {
-        if (sCF('是否确认退出？')) {
-            event.preventDefault();
-            return false;
-        };
+        event.preventDefault();
+        sCF.call($(this), '是否确认退出？');
     });
     $("div[class^='span']").find(".row-form:first").css('border-top', '0px');
     $("div[class^='span']").find(".row-form:last").css('border-bottom', '0px');

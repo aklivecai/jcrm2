@@ -24,6 +24,135 @@ var dlog = function(obj) {
     };
     alert(str);
 };
+/**
+  * localstorage存储类
+  */
+var storage = {
+    isLocalStorage: (window.localStorage ? true : false),
+    //存值
+    set: function(item, value) {
+        if (this.isLocalStorage) {
+            localStorage[item] = value;
+        }
+    },
+    //取值
+    get: function(item) {
+        if (this.isLocalStorage) {
+            return localStorage[item];
+        }
+    },
+    //删除一个值
+    del: function(item) {
+        if (this.isLocalStorage) {
+            localStorage.removeItem(item);
+        }
+    },
+    //全部清除
+    clear: function() {
+        if (this.isLocalStorage) {
+            localStorage.clear();
+        }
+    },
+    //json存储
+    json_set: function(item, value) {
+        if (this.isLocalStorage) {
+            localStorage[item] = JSON.stringify(value);
+        }
+    },
+    //json取值
+    json_get: function(item) {
+        if (this.isLocalStorage) {
+            var data = localStorage[item] ? JSON.parse(localStorage[item]) : '';
+            return data;
+        }
+    },
+    //遍历，用于测试
+    display: function() {
+        if (this.isLocalStorage) {
+            var data = '';
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                value = localStorage.getItem(key);
+                data += "\nkey:" + key + " value:" + value;
+            }
+            return data;
+        }
+    }
+};
+
+    var uploadFile = function(t, pars) {
+        var webuploader = $('#webuploader'),
+            postUrl = webuploader.attr('data-post-url'),
+            BASE_URL = webuploader.attr('src'),
+            options = {
+                filesize: 1024 * 1024 * 3,
+                uploadError: function(file, error) {
+                    var msg = file.name + '上传出错';
+                    this.removeFile(file);
+                    msgShow(msg, true);
+                },
+                uploadSuccess: function(file, result) {
+                    // this.removeFile(file);
+                },
+                fileQueued: function(file) {
+                    var self = this;
+                    this.md5File(file).then(function(val) {
+                        self.options.formData = {
+                            md5: val,
+                            size: file.szie,
+                        }
+                        self.upload(file);
+                    });
+                },
+                error: function(error) {
+                    var strHtml = null;
+                    switch (error) {
+                        case 'F_EXCEED_SIZE':
+                            var file = arguments[1];
+                            strHtml = file.name + '  (' + WebUploader.formatSize(file.size) + ')  超过最大限制' + WebUploader.formatSize(options.filesize);
+                            break;
+                        case 'Q_EXCEED_NUM_LIMIT':
+                            var file = arguments[2],
+                                tip = arguments[1];
+                            strHtml = file.name + '  (' + WebUploader.formatSize(file.size) + ')  超过文件总数限制' + tip + '个';
+                            break;
+                        case 'object':
+                            return false;
+                    }
+                    if (strHtml) {
+                        msgShow(strHtml, true);
+                    };
+                }
+            },
+            BASE_URL = BASE_URL.substr(0, BASE_URL.lastIndexOf('/') + 1),
+            _url = postUrl + (t.attr('data-url') ? t.attr('data-url') : '');
+        //更新配置
+        for (var i in pars) {
+            options[i] = pars[i];
+        }
+        var uploader = WebUploader.create({
+            // swf文件路径
+            swf: BASE_URL + '/Uploader.swf',
+            // 文件接收服务端。
+            server: _url,
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            // pick:  '#'+t.attr('id') ,
+            pick: t.get(0),
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: true,
+            fileSingleSizeLimit: options.filesize, // {int} [可选] [默认值：undefined] 验证单个文件大小是否超出限制, 超出则不允许加入队列
+            fileNumLimit: 0 //{int} [可选] [默认值：undefined] 验证文件总数量, 超出则不允许加入队列。
+            // fileSizeLimit: 1024 * 1024 * 10 //{int} [可选] [默认值：undefined] 验证文件总大小是否超出限制, 超出则不允许加入队列。
+        });
+        // t.attr('id') ? t.attr('id') :t.get(0)
+        // 当有文件被添加进队列的时候
+        uploader.on('fileQueued', options.fileQueued);
+        uploader.on('error', options.error);
+        //上传成功以后，插入返回的编号
+        uploader.on('uploadSuccess', options.uploadSuccess);
+        uploader.on('uploadError', options.uploadError);
+    };
 //用于动态生成网址
 //$route,$params=array(),$ampersand='&'
 var createUrl = function(route) {
@@ -87,7 +216,15 @@ var createUrl = function(route) {
                 data: {},
                 dataType: "json",
                 success: function(result) {
-                    if (result.status == 1) {} else {
+                    if (result.status == 1) {
+                        if(typeof result['url']!='undefined'){
+                            if (result.url==true) {
+                                window.location.href = window.location.href;    
+                            }else{
+                                window.location.href = result['url'];    
+                            }                            
+                        }
+                    } else {
                         msgShow(result.info);
                     }
                 },
@@ -308,14 +445,15 @@ var createUrl = function(route) {
         var t = $(eform),
             error = null;
         t.find('input,textarea,select').each(function(index, elem) {
-            var _elem = $(elem),
+            var _elem = $(elem).eq(0),
                 strMst = _checkElem(_elem);
             if (strMst) {
                 _elem.addClass('error');
                 if (error == null) {
                     error = _elem;
                 }
-                tipShow(strMst, _elem.get(0));
+
+                tipShow(strMst+_elem.attr('class'), _elem.get(0));
             } else {
                 _elem.removeClass('error')
             }
@@ -425,6 +563,10 @@ var createUrl = function(route) {
                 self = window;
             };
         }
+        if (url.indexOf('dialog=win')==-1) {
+            url+=url.indexOf('?')==-1?'?':'&';
+            url+='dialog=win';
+        };
         if (!options['dataFun']) {
             options['dataFun'] = function(data) {
                 var url = false,

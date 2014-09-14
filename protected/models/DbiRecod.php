@@ -46,6 +46,15 @@ class DbiRecod extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+    //默认继承的搜索条件
+    public function defaultScope() {
+        $condition = array();
+        if ($this->hasAttribute('fromid')) {
+            $condition[] = 'fromid=' . Ak::getFormid();
+        }
+        $arr['condition'] = implode(" AND ", $condition);
+        return $arr;
+    }
     protected function afterSave() {
         parent::afterSave();
         if (!$this->_isLog) {

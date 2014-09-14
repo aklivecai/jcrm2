@@ -167,8 +167,8 @@ return array(
     'Workflow' => '审批',
     'Step' => '步骤',
     'My Workflow' => '由我发起',
-    'My Neet' => '待我审批',
-    'Handle' => '经我审批',
+    'My Neet' => '待办流程',//'待我审批',
+    'Handle' =>'已办流程',// '经我审批',
     'Completed' => '已完成流程',
     'Apply' => '申请',
 

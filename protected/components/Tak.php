@@ -1,5 +1,15 @@
 <?php
 class Tak extends Ak {
+    /**
+     * 测试用,与切换模拟有用户而已
+     * @param [type] $id [description]
+     */
+    public static function setCid($id) {
+        self::setState('cid', $id);
+    }
+    public static function getCid() {
+        return self::getState('cid', self::getManageid());
+    }
     public static function giiColAdmin($col) {
         $result = self::giiCol($col);
         if (!$result) {
@@ -556,7 +566,7 @@ class Tak extends Ak {
                 ) ,
             ) ,
             'workflow' => array(
-                'visible' => self::checkAccess('Workflow.*') ,
+                'visible' => self::checkAccess('Workflow.Default.*') || self::checkAccess('Workflow.*') ,
                 'icon' => 'isw-list',
                 'label' => sprintf($strSpan, Tk::g('Workflow')) ,
                 'url' => array(
@@ -1167,6 +1177,8 @@ class Tak extends Ak {
             11882 => 'test',
             11906 => '梅小琴test',
             5290 => '深圳市智升家居有限公司',
+            //test
+            11916 => '深圳市欧曼缔家具有限公司',
         );
         return isset($data[$id]);
     }
@@ -1186,11 +1198,16 @@ class Tak extends Ak {
             11906 => '梅小琴test',
             5290 => '深圳市智升家居有限公司',
             5112 => '惠州市中港龙家具制造有限公司 ',
+            //test
+            11916 => '深圳市欧曼缔家具有限公司',
         );
         return isset($data[$id]);
     }
     
     public static function getMsgByErrors($errors, $one = true) {
+        if (is_string($errors)) {
+            return $errors;
+        }
         if ($one) {
             $result = "<ul>";
         }

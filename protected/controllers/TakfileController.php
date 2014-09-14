@@ -26,6 +26,9 @@ class TakfileController extends RController {
         }
         return $this->_model;
     }
+    public function error($code = 404, $msg = '所请求的页面不存在。') {
+        throw new CHttpException($code, $msg);
+    }
     //ajax信息返回值,1成功,0失败,info提示信息
     public function message($info, $status = true) {
         header('Content-Type: application/json');
@@ -35,9 +38,6 @@ class TakfileController extends RController {
         );
         echo CJSON::encode($tags);
         exit;
-    }
-    public function error($code = 404, $msg = '所请求的页面不存在。') {
-        throw new CHttpException($code, $msg);
     }
     public function actionUpload($id, $itemid = false) {
         $id = Tak::getSId($id);
@@ -64,7 +64,6 @@ class TakfileController extends RController {
         $image->saveAs($root . $name);
         
         $ext = $image->extensionName; //上传文件的扩展名
-        
         $m = $this->modelName;
         $model = new $m('create');
         $model->attributes = array(
@@ -76,8 +75,10 @@ class TakfileController extends RController {
             'file_name' => $file_name,
             'file_type' => 0,
             'suffix' => FUtils::getSuffix($ext) ,
-            'mime_type' => $image->type,
+            'mime_type' => FUtils::mimeContentType($file_name, $root . $name) ,
+            /*$image->type() 系统带的有点长*/
         );
+        // Tak::l(true,sprintf('$root:%s ,file_name:%s, ',$root,$file_name));
         if ($model->validate()) {
             $model->save();
             $info = $model->getInfo();

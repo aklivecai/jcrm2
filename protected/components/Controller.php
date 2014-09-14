@@ -38,8 +38,7 @@ class Controller extends RController {
         } else {
             Yii::app()->clientScript->scriptMap = array(
                 'jquery.js' => sprintf('%s_ak/js/jq.js', Yii::app()->params['staticUrl']) ,
-                // 'jquery.min.js' => sprintf('%s_ak/js/jq.js', Yii::app()->params['staticUrl']) ,
-                
+                /*'jquery.min.js' => sprintf('%s_ak/js/jq.js', Yii::app()->params['staticUrl']) ,*/
             );
             /*
             // Yii::app()->bootstrap->register();          
@@ -59,7 +58,7 @@ class Controller extends RController {
     public function _setLayout($layout = 'column2') {
         $this->layout = $layout;
     }
-    public function setLayoutWin(){
+    public function setLayoutWin() {
         $this->_setLayout('//layouts/columnWindows');
     }
     /*解密ID*/
@@ -77,6 +76,36 @@ class Controller extends RController {
     public function setSId($id) {
         $result = Tak::setSId($id);
         return $result;
+    }
+    //ajax信息返回值,1成功,0失败,info提示信息
+    public function message($info, $status = true, $url = false) {
+        if ($this->isAjax) {
+            header('Content-Type: application/json');
+            $tags = array(
+                'status' => $status ? 1 : 0,
+                'info' => $info,
+            );
+            if ($url) {
+                $tags['url'] = $url;
+            }
+            echo CJSON::encode($tags);
+            exit;
+        } elseif (Tak::getQuery('dialog', false)) {
+            $this->setLayoutWin();
+            if (is_array($info)) {
+                $info = Tak::getMsgByErrors($info);
+            }
+            $script = sprintf('closeWin({url:false,info:"%s"});', $info);
+            $this->render('//chip/iframe', array(
+                'script' => $script,
+            ));
+            exit;
+        } else {
+            if (is_array($info)) {
+                $info = Tak::getMsgByErrors($info);
+            }
+            $this->errorE($info);
+        }
     }
     /**
      * [loadModel description]
@@ -159,7 +188,7 @@ class Controller extends RController {
             }
             if ($notcu) {
                 $m->setGetCU();
-            }            
+            }
             $m = $m->findByPk($id);
             if ($m === null) {
                 $this->error();
@@ -426,7 +455,7 @@ class Controller extends RController {
         return $result;
     }
     
-    public  function errorE($msg = '非法操作') {
+    public function errorE($msg = '非法操作') {
         $this->error(202, $msg);
     }
     public function error($code = 404, $msg = '所请求的页面不存在。') {

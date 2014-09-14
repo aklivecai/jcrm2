@@ -114,13 +114,12 @@ class TakFile extends DbRecod {
         parent::afterDelete();
     }
     
+    /**
+     * 获取文件信息,大小名字,上传时间,上传人
+     * @return [type] [description]
+     */
     public function getInfo() {
-        $m = Manage::model()->findByPk($this->manageid);
-        if ($m != null) {
-            $uname = $m->user_nicename;
-        } else {
-            $uname = '';
-        }
+        $uname = Manage::getNameById($this->manageid);
         $data = array(
             'itemid' => Ak::setSId($this->primaryKey) ,
             'manageid' => Ak::setSId($this->manageid) ,
@@ -131,4 +130,36 @@ class TakFile extends DbRecod {
         );
         return $data;
     }
-}
+    /**
+     * 更新文件归属,一般用于第一次添加信息
+     * @param  array $ids        字段ID列表
+     * @param  int $version_id 信息编号
+     * @return [type]             [description]
+     */
+    public function upVId($ids, $version_id, $parent_file_id) {
+        $sqlWhere = ' WHERE fromid=:fromid  AND version_id=0 AND parent_file_id=:parent_file_id  AND itemid IN(:ids) ';
+        $sql = "SELECT itemid FROM :table " . $sqlWhere;
+        $ids[] = 0;
+        $data = array(
+            ':table' => self::$table,
+            ':fromid' => Ak::getFormid() ,
+            ':version_id' => $version_id,
+            ':parent_file_id' => $parent_file_id,
+            ':ids' => implode(',', $ids) ,
+        );
+        $sql = strtr($sql, $data);
+        $tags = self::$db->createCommand($sql)->queryColumn();
+        $ids = array();
+        foreach ($tags as $key => $value) {
+            $ids[] = $value;
+        }
+        
+        if (count($ids) > 0) {
+            $data[':ids'] = implode(',', $ids);
+            $sql = "UPDATE  :table SET version_id=:version_id" . $sqlWhere;
+            $sql = strtr($sql, $data);
+            $tags = self::$db->createCommand($sql)->query();
+        }
+        return $ids;
+    }
+};

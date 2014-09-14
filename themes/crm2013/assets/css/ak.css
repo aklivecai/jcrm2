@@ -852,3 +852,30 @@ input[type=number] {
     border-color: #315680;
     color: #FFF;
 }
+
+.exist-info{
+    position: relative !important;
+}
+@-webkit-keyframes salePulse {
+    from { background-color: #a00; }
+    50% { background-color: #c00; -webkit-transform:scale(1.1); }
+    to { background-color: #a00; }
+}
+.exist-info:before{
+    content: ' ';
+    background:#c00; /* fallback for non-webkit browsers */
+    display:block; /* or it wont work */
+    width: 12px;
+    height: 12px;
+    text-align:center;
+    border-radius:3em;
+
+    position: absolute;
+    top: 5px;
+    left: 25px;
+
+    -webkit-animation-name:salePulse;
+    -webkit-animation-duration:1s;
+    -webkit-animation-iteration-count:infinite;
+
+}

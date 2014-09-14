@@ -7,8 +7,8 @@
  */
 
 .flow-tools-wap {
-    height: 80px;
-    min-height: 80px;
+    height: 85px;
+    min-height: 85px;
 }
 .flow-tools-body {
     height: auto !important;
@@ -34,6 +34,13 @@
 }
 .wf_field_show {
     display: inline-block;
+    color: #0067CC;
+    width:  auto !important;
+}
+/*booto.css*/
+.wf_field_show img{    
+    /*width: auto !important;*/
+    max-width:13px !important;
 }
 .iform-content label {
     display: inline-block;
@@ -105,6 +112,10 @@ input.wf_field, textarea.wf_field, select.wf_field {
 
 button[type=submit]{
 	position: relative;
+}
+
+.wap-btns{
+    margin-left: 15px;
 }
 
 @-webkit-keyframes loading {

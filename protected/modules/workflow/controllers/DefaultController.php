@@ -1,5 +1,12 @@
 <?php
 class DefaultController extends WorkflowController {
+    public $modelName = 'FlowRun';
+    private $userid = 0;
+    public function init() {
+        parent::init();
+        // $this->userid = Tak::getManageid();
+        $this->userid = Tak::getCid();
+    }
     public function actions() {
         return array(
             // 流程申请表单填写页面
@@ -11,53 +18,127 @@ class DefaultController extends WorkflowController {
         "转交流程",
         "结束流程"
     );
-    /**
-     * 流程列表页面中,流程操作按钮的设置
-     * @param  [type] $data [description]
-     * @return [type]       [description]
-     */
-    public function writeButtons($data) {
-        // print_r($data);
-        $tags = array(
-            'view' => CHtml::link('流程查看', Yii::app()->controller->createUrl("FlowDetail", array(
-                "run_id" => $data["run_id"]
-            ))) ,
-        );
-        $run_prc = $data->run_prc[0];
-        // if ($_GET['type']!='handle'&&( $data["step_no"] > 0 || $data["start_time"] != $run_prc->start_time)) {
-        if ($_GET['type'] != 'handle') {
-            $tags[] = CHtml::link('处理流程', $this->createUrl("flowinfo", array(
-                "run_id" => $data["run_id"],
-                "step_no" => $data["step_no"],
-                "flow_id" => $data["flow_id"]
-            )));
+    
+    public function getLink($id) {
+        $id = $this->setSId($id);
+        $htmls = array();
+        $htmls[] = JHtml::link('查看', $this->createUrl('view', array(
+            'id' => $id
+        )) , array(
+            'class' => 'target-win',
+            'data-full' => true,
+        ));
+        switch ($this->getAction()->id) {
+            case 'index':
+                /*
+                $htmls[] = JHtml::link('撤销', $this->createUrl('CancelFlow', array(
+                    'id' => $id,
+                    'action' => 'update'
+                )) , array(
+                    'class' => 'target-win',
+                    'data-full' => true,
+                ));
+                */
+            break;
+            case 'myneet':
+                $htmls[] = JHtml::link('处理', $this->createUrl('HandleRun', array(
+                    'id' => $id,
+                    'action' => 'update'
+                )) , array(
+                    'class' => 'target-win',
+                    'data-full' => true,
+                ));
+            break;
+            default:
+            break;
         }
-        echo join(' | ', $tags);
+        echo implode(' / ', $htmls);
     }
     /**
-     * 已经处理过的
-     * @return [type] [description]
+     * 浏览流程详细(权限后期过滤,只有自己可以浏览,处理过的人可以浏览,有权限的)
+     * @param  [type] $id [description]
+     * @return [type]     [description]
      */
-    public function actionHandle() {
-        $flowrun = new FlowRun('search'); //定义查询模型
-        $flowinfos = FlowInfo::model()->findAll();
-        $userInfo = Yii::app()->session->get('userInfo');
-        $gridDataProvider = $flowrun->searchBy($userInfo["name"]);
-        $this->render('list_handle', array(
-            'gridDataProvider' => $gridDataProvider,
+    public function actionView($id) {
+        $model = $this->loadModel($id);
+        $fUtils = new FlowUtils();
+        $fUtils->onErrors = function ($data) {
+            if (false && $this && isset($this['controller'])) {
+                $this->controller->message($data, false);
+            } else {
+                Yii::app()->getController()->message($data, false);
+            }
+        };
+        $data = $fUtils->getViewFlow($model->primaryKey);
+        $data['id'] = $id;
+        $this->setLayoutWin();
+        $this->render($this->templates['view'], $data);
+    }
+    
+    public $acitonUrl = null;
+    public function actionHandleRun($id) {
+        $model = $this->loadModel($id);
+        if ($model->run_state == 1) {
+            $this->message('流程已经结束', false);
+        } elseif ($model->cuser_id != $this->userid) {
+            //判断处理流程的身份是不是自己
+            $this->message('当前流程不是你处理的', false);
+        }
+        $fUtils = new FlowUtils();
+        $data = $fUtils->getViewFlow($model->primaryKey);
+        $fUtils->onErrors = function ($data) {
+            Yii::app()->getController()->message($data, false);
+        };
+        $fUtils->onSuccess = function ($data) {
+            Yii::app()->getController()->message(Yii::app()->getController()->acitonUrl, true);
+        };
+        if ($this->isAjax && count($_POST) > 0) {
+            $type = Tak::getPost('type', 1);
+            $note = Tak::getPost('note', false);
+            
+            if ($data['stepInfo']->isFirst()) {
+                $type = 1;
+                $this->acitonUrl = $this->createUrl('index');
+            } else {
+                $this->acitonUrl = $this->createUrl('handle');
+                if ($type != 1) {
+                    $type = 0;
+                }
+            }
+            //退回重新申请的,需要填写理由
+            if (!$note && ($type == 0 || $data['stepInfo']->isFirst())) {
+                $data = '请输入您的办理理由!';
+                $this->message($data, false);
+                exit;
+            }
+            $fUtils->HandleRun($type, $note, $_POST);
+            return false;
+        }
+        $data['id'] = $id;
+        $this->setLayoutWin();
+        $this->render('handle', $data);
+    }
+    /**
+     * 查看流程的步骤列表
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function actionViewRun($id) {
+        $model = $this->loadModel($id);
+        $this->setLayoutWin();
+        $this->render('run_prc', array(
+            'model' => $model
         ));
     }
-    /**
-     * 已经完成的审批
-     * @return [type] [description]
-     */
-    public function actionCompleted() {
-        $flowrun = new FlowRun('search'); //定义查询模型
-        $flowrun->run_state = 1;
-        $flowrun->begin_user = $userInfo["name"];
-        $gridDataProvider = $flowrun->search();
-        $this->render('list_completed', array(
-            'gridDataProvider' => $gridDataProvider
+    
+    public function actionIndex() {
+        $model = new FlowRun('search'); //定义查询模型
+        //我的
+        $model->user = $this->userid;
+        // 未完成
+        $model->run_state = 0;
+        $this->render('list_my', array(
+            'model' => $model,
         ));
     }
     /**
@@ -65,212 +146,55 @@ class DefaultController extends WorkflowController {
      * @return [type] [description]
      */
     public function actionMyNeet() {
-        $flowrun = new FlowRun('search'); //定义查询模型
-        $flowrun->run_state = 0;
-        $flowrun->run_prc = array(
-            'handel_time' => '0',
-            'step_user' => $userInfo["name"]
-        );
-        $gridDataProvider = $flowrun->search();
-        $this->render('list_myneet', array(
-            'gridDataProvider' => $gridDataProvider,
-        ));
-    }
-    public function actionIndex() {
-        // $this->setPageTitle(Tk::g('My Workflow'));
-        $flowrun = new FlowRun('search'); //定义查询模型
+        
+        $model = new FlowRun('search'); //定义查询模型
         //我的
-        $flowrun->begin_user = 0;
-        // 未完成
-        $flowrun->run_state = 0;
-        $gridDataProvider = $flowrun->search();
-        $this->render('list_my', array(
-            'gridDataProvider' => $gridDataProvider,
-        ));
-    }
-    /**
-     * 显示流程的详流程
-     * @return [type] [description]
-     */
-    public function actionFlowDetail($run_id = "") {
-        $runModel = FlowRun::model()->with(array(
-            'run_prc' => array(
-                'order' => 'prc_id desc'
-            ) ,
-            'prc_data' => array() ,
-        ))->findByPk($run_id);
-        // var_dump($runModel->run_prc);
-        $users = Tool::userList();
-        $this->render("flowdetail", array(
-            'model' => $runModel,
-            'users' => $users
-        ));
-    }
-    /**
-     * 流程申请表单填写页面
-     * [actionFlowInfo description]
-     * @param  string $run_id  [description]
-     * @param  string $step_no [description]
-     * @return [type]          [description]
-     */
-    public function actionFlowInfo($id) {
-        //获取流程信息
-        $flowInfo = $this->loadModels($id, 'FlowInfo');
-        //获取流程表单信息
-        $fowForm = $this->loadModels($flowInfo->primaryKey, 'FormInfo');
-        $this->setLayoutWin();
-        $model = new FormModel('create');
-        //获取第一个步骤
-        $step = $flowInfo->getFirstStep();
-        if ($step == null) {
-            $this->error();
-        }
-        $this->render("flowinfo", array(
-            'flowInfo' => $flowInfo,
-            'fowForm' => $fowForm,
+        $model->run_state = 0;
+        //我的
+        $model->cuser_id = $this->userid;
+        $this->render('list_myneet', array(
             'model' => $model,
-            'step' => $step,
-            'id' => $id,
         ));
     }
     /**
-     * 表单流程的提交
-     * @return
-     */
-    public function actionPostFlowInfo() {
-        $flow_id = $_POST["flow_id"];
-        $run_id = $_POST["run_id"];
-        $step_no = $_POST["step_no"];
-        $label = $_POST["label"];
-        if (!empty($run_id) && !empty($step_no)) {
-            $type = isset($_POST["type"]) ? $_POST["type"] : 0;
-            if ($type == 0) $this->TurnNext($flow_id, $run_id, $step_no);
-            else $this->FlowBack($flow_id, $run_id, $step_no);
-            $this->redirect(array(
-                'flowList'
-            ));
-        }
-        $userInfo = Yii::app()->session->get('userInfo');
-        $model = new FormModel;
-        $process = new Process;
-        $model->attributes = $_POST['FormModel'];
-        $model->user = $userInfo['name'];
-        if (!$model->validate()) {
-            $form_id = FlowInfo::model()->findByPk($flow_id)->form_id;
-            $form = FormInfo::model()->findByPk($form_id);
-            $fields = FormField::model()->findAll('form_id=:form_id', array(
-                ':form_id' => $form_id
-            ));
-            $formProduce = new FormProducer;
-            $formProduce->pushField($fields);
-            $formProduce->pushValue($_POST);
-            $html = $formProduce->buildForm($form);
-            
-            $this->render("flowinfo", array(
-                "model" => $model,
-                "label" => $this->label[$label],
-                "flow_id" => $flow_id,
-                "label_index" => $label,
-                "run_id" => $run_id,
-                "step_no" => $step_no,
-                'html' => $html
-            ));
-            Yii::app()->end();
-        }
-        //将表单数据插入数据库中,并创建流程信息()
-        $run_id = $process->creatFlow($model, $flow_id);
-        $model->run_id = $run_id;
-        $model->save();
-        $this->redirect(array(
-            'Index'
-        ));
-    }
-    /**
-     * 用于展示列表,
+     * 已经处理过的
      * @return [type] [description]
-     * 已弃用
      */
-    public function actionFlowList() {
-        $gridDataProvider = new CActiveDataProvider('FlowRun', array(
-            'criteria' => array(
-                // 'condition'=> 'run_state = 0',
-                'with' => array(
-                    'run_prc'
-                ) ,
-            ) ,
-        ));
-        // var_dump($gridDataProvider->getData());
-        $this->render('flowlist', array(
-            'gridDataProvider' => $gridDataProvider
+    public function actionHandle() {
+        $model = new FlowRun('search'); //定义查询模型
+        $model->suid = $this->userid;
+        $this->render('list_handle', array(
+            'model' => $model,
         ));
     }
     /**
-     * 根据设置,转交或结束流程
-     * @param  string $flow_id [description]
-     * @param  string $run_id  [description]
-     * @param  string $step_no [description]
-     * @return [void]          [description]
+     * 已经完成的审批
+     * @return [type] [description]
      */
-    public function TurnNext($flow_id = '', $run_id = '', $step_no = '') {
-        if (empty($flow_id) || empty($run_id) || empty($step_no)) {
-            $this->redirect("flowlist");
-        }
-        //获取流程状态,及转交条件
-        $process = new Process;
-        $form_data = array(
-            'remark' => $_POST['remark']
-        ); //表单提交数据
-        if ($process->transmit($flow_id, $run_id, $step_no, 'next', $form_data)) {
-            $this->redirect("Index");
-        }
-    }
-    /**
-     * 回退流程
-     * @param  string $flow_id [description]
-     * @param  string $run_id  [description]
-     * @param  string $step_no [description]
-     * @return [type]          [description]
-     */
-    public function FlowBack($flow_id = '', $run_id = '', $step_no = '') {
-        $process = new Process;
-        $form_data = array(
-            'remark' => $_POST["remark"]
-        ); //表单提交数据
-        $process->transmit($flow_id, $run_id, $step_no, 'up', $form_data);
-        $this->redirect(array(
-            'Index'
+    public function actionCompleted() {
+        $model = new FlowRun('search'); //定义查询模型
+        //我的
+        $model->run_state = 1;
+        //我的
+        $model->user = $this->userid;
+        $this->render('list_completed', array(
+            'model' => $model,
         ));
-    }
-    /*
-     * 设置流程状态的显示字符
-    */
-    public function flowState($data, $row) {
-        if (empty($data->run_prc[0]->handel_time) && $data->run_prc[0]->timeout < time()) return '已超时';
-        else return '正常进行中';
     }
     /**
      * 获取当前用户正在处理流程数量,用户提醒用户
      * @return [type] [description]
      */
-    public function actiongetRunNum() {
-        $userInfo = Yii::app()->session->get('userInfo');
-        $count = FlowRunPrc::model()->count('step_user=:step_user and handel_time = 0 ', array(
-            ':step_user' => $userInfo['name']
-        ));
-        $json = array(
-            'num' => $count
-        );
-        echo json_encode($json);
+    public function actionGetRunNum() {
+        $count = FlowRunPrc::model()->getUcount($this->userid);
+        $this->message($count, $count > 0);
     }
     /**
      * Ajax改变用户session
      *
      */
-    public function actionChangeUser() {
-        $user = $_POST['user'];
-        $allUser = Tool::userList();
-        $userInfo['label'] = $allUser[$user];
-        $userInfo['name'] = $user;
-        Yii::app()->session->add('userInfo', $userInfo);
+    public function actionChangeUser($id) {
+        Tak::setCid($id);
+        $this->message('', true, true);
     }
 }

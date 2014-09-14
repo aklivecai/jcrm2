@@ -144,7 +144,31 @@ class FlowStep extends DbiRecod {
         $count = $command->query();
         //删除步骤中的条件
         StepCondition::model()->deleteAll('step_id=' . $this->primaryKey);
+        //删除字段的属性
         $this->delFields($this->primaryKey);
+    }
+    /**
+     * 更新条件数
+     * @param  integer $id [description]
+     * @return [type]      [description]
+     */
+    public function upConditions($id = 0) {
+        $id == 0 && $id = $this->primaryKey;
+        $data = array(
+            ':table' => self::$table,
+            ':StepCondition' => StepCondition::$table,
+            ':step_id' => $id,
+        );
+        $sql = 'SELECT COUNT(1)   FROM :StepCondition WHERE step_id=:step_id';
+        $sql = strtr($sql, $data);
+        // Tak::KD($sql,1);
+        $row = self::$db->createCommand($sql)->queryScalar();
+        $data[':rows'] = $row;
+        
+        $sql = 'UPDATE  :table SET conditions=:rows WHERE  step_id=:step_id';
+        $sql = strtr($sql, $data);
+        $command = self::$db->createCommand($sql);
+        $command->query();
     }
     
     public function delFields($id = 0) {
@@ -177,6 +201,10 @@ class FlowStep extends DbiRecod {
      */
     public function getWFields() {
         return $this->getFieldsBySql(0, '`write`=1');
+    }
+    
+    public function isFirst() {
+        return $this->step_no == 1;
     }
     
     public function getConditionsBySql($id = 0) {

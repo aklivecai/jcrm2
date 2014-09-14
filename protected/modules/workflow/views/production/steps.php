@@ -42,7 +42,7 @@ Tak::regScript('script-steps', $js, CClientScript::POS_HEAD);
 <table class="itable bordered">
     <colgroup>
         <col width="55px" />
-        <col width="80px" />
+        <col width="auto" />
         <col width="auto" />
         <col width="80px" />
         <col width="120px" />
@@ -52,7 +52,7 @@ Tak::regScript('script-steps', $js, CClientScript::POS_HEAD);
         <th>步骤</th>
         <th>名称</th>
         <th>处理人</th>
-        <th>超时时间</th>
+        <th>超时天数</th>
         <th>控件/条件</th>
         <th>操作</th>
     </thead>

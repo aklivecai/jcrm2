@@ -66,11 +66,10 @@ class FlowStepsAction extends CAction {
         }
         if ($model->validate()) {
             $model->save();
-            $this->message($model->getSId());
+            $this->message($model->getSId() , true);
         } else {
             $error = Tak::getMsgByErrors($model->getErrors());
-            echo $error;
-            exit;
+            $this->message($error, false);
         }
     }
 }

@@ -71,4 +71,25 @@ class FormField extends DbiRecod {
             'bindfunction' => '触发JS函数',
         );
     }
+    
+    public function isShow() {
+        $result = false;
+        switch ($this->otype) {
+            case 'select':
+            case 'radio':
+            case 'checkbox':
+                $result = true;
+            break;
+            default:
+            break;
+        };
+        return $result;
+    }
+    //删除字段在步骤中的条件
+    protected function afterDelete() {
+        parent::afterDelete();
+        //
+        $itemid = $this->primaryKey;
+        StepCondition::model()->deleteAll('field_id=' . $itemid);
+    }
 }

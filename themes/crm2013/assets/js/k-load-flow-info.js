@@ -17,119 +17,50 @@
  */
 +jQuery(function($) {
     'use strict';
-    var uploadFile = function(t, pars) {
-        var webuploader = $('#webuploader'),
-            postUrl = webuploader.attr('data-post-url'),
-            BASE_URL = webuploader.attr('src'),
-            options = {
-                filesize: 1024 * 1024,
-                uploadError: function(file, error) {
-                    var msg = file.name + '上传出错';
-                    msgShow(msg, true);
-                },
-                uploadSuccess: function(file, result) {
-                    this.removeFile(file);
-                },
-                fileQueued: function(file) {
-                    var self = this;
-                    this.md5File(file).then(function(val) {
-                        self.options.formData = {
-                            md5: val,
-                            size: file.szie,
-                        }
-                        self.upload(file);
-                    });
-                },
-                error: function(error) {
-                    var strHtml = null;
-                    switch (error) {
-                        case 'F_EXCEED_SIZE':
-                            var file = arguments[1];
-                            strHtml = file.name + '  (' + WebUploader.formatSize(file.size) + ')  超过最大限制' + WebUploader.formatSize(options.filesize);
-                            break;
-                        case 'Q_EXCEED_NUM_LIMIT':
-                            var file = arguments[2],
-                                tip = arguments[1];
-                            strHtml = file.name + '  (' + WebUploader.formatSize(file.size) + ')  超过文件总数限制' + tip + '个';
-                            break;
-                        case 'object':
-                            return false;
-                    }
-                    if (strHtml) {
-                        msgShow(strHtml, true);
-                    };
+    if ($('#add-file').length > 0) {
+        var upload = uploadFile($('#add-file'), {
+            uploadSuccess: function(file, dataJson) {
+                if (dataJson.status == 1) {
+                    var data = dataJson.info;
+                    data.del = true;
+                    mview.addI(data);
+                } else {
+                    msgShow(dataJson.info, true);
                 }
-            },
-            BASE_URL = BASE_URL.substr(0, BASE_URL.lastIndexOf('/') + 1),
-            _url = postUrl + (t.attr('data-url') ? t.attr('data-url') : '');
-        //更新配置
-        for (var i in pars) {
-            options[i] = pars[i];
-        }
-        var uploader = WebUploader.create({
-            // swf文件路径
-            swf: BASE_URL + '/Uploader.swf',
-            // 文件接收服务端。
-            server: _url,
-            // 选择文件的按钮。可选。
-            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            // pick:  '#'+t.attr('id') ,
-            pick: t.get(0),
-            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-            resize: true,
-            fileSingleSizeLimit: options.filesize, // {int} [可选] [默认值：undefined] 验证单个文件大小是否超出限制, 超出则不允许加入队列
-            fileNumLimit: 0 //{int} [可选] [默认值：undefined] 验证文件总数量, 超出则不允许加入队列。
-            // fileSizeLimit: 1024 * 1024 * 10 //{int} [可选] [默认值：undefined] 验证文件总大小是否超出限制, 超出则不允许加入队列。
+            }
         });
-        // t.attr('id') ? t.attr('id') :t.get(0)
-        // 当有文件被添加进队列的时候
-        uploader.on('fileQueued', options.fileQueued);
-        uploader.on('error', options.error);
-        //上传成功以后，插入返回的编号
-        uploader.on('uploadSuccess', options.uploadSuccess);
-        uploader.on('uploadError', options.uploadError);
     };
-    var upload = uploadFile($('#add-file'), {
-        uploadSuccess: function(file, dataJson) {
-            if (dataJson.status == 1) {
-                var data = dataJson.info;
-                data.del = true;
-                mview.addI(data);
-            } else {
-                msgShow(dataJson.info, true);
-            }
-        }
-    }),
-        FilesList = function(list) {
-            var self = this;
-            Lines.call(this, function(age) {
-                return age;
-            }, list);
-            self.getDown = function(id) {
-                return createUrl('TakFile/Download/' + id);
-            };
-            self.addI = function(obj) {
-                self.add.call(self, obj);
-                gotoElem($('#wap-files'));
-            }
-            self.removeI = function() {
-                var s = this;
-                sCF.call($('#' + s.itemid), '确定删除此附件吗？', function() {
-                    self.remove.call(s);
-                });
-            }
+    var FilesList = function(list) {
+        var self = this;
+        Lines.call(this, function(age) {
+            return age;
+        }, list);
+        self.getDown = function(id) {
+            return createUrl('TakFile/Download/' + id);
         };
+        self.addI = function(obj) {
+            self.add.call(self, obj);
+            gotoElem($('#wap-files'));
+            storage.json_set('files', self.lines());
+        }
+        self.removeI = function() {
+            var s = this;
+            sCF.call($('#' + s.itemid), '确定删除此附件吗？', function() {
+                self.remove.call(s);
+                storage.json_set('files', self.lines());
+            });
+        }
+    };
     var mview = null,
-        temps = [];
-    for (var i = 0; i < 1; i++) {
-        temps.push({
-            "itemid": "32073b3cNh9dt1BwsFAwMKAgIHBQMGVAAPV1MbFxgDBwRSC1ZXBFYHShBO",
-            "manageid": "6370fa16Ieh1YrAgUJVF1UCgBXUwMPUAFSUQJJQBhVAAYIUFJQVAUAHBNJ",
-            "time": "2014-09-08 16:40:46",
-            "name": "I5Bdjt.png",
-            "user": "Tak chen",
-            'del': true
-        });
+        temps = [],
+        fiels = attachs.length > 0 ? attachs : []; // storage.json_get('files');
+    if (!(fiels instanceof Array)) {
+        fiels = [];
+    }
+    for (var i = 0; i < fiels.length; i++) {
+        fiels[i].del = false;
+        // fiels[i].del = true;
+        temps.push(fiels[i]);
     };
     mview = new FilesList(temps);
     ko.applyBindings(mview, document.getElementById('wap-files'));
@@ -163,18 +94,45 @@
         for (var i = 0; i < elems.length; i++) {
             elems[i]['e'].replaceWith(elems[i]['h']);
         };
-        content.removeClass('load-data')
+        content.removeClass('load-data');
+        if (typeof showData != 'undefined') {
+            template.show(content);
+        };
     })();
+    var isaction = -1,
+        strmssage = null,
+        listBtn = $('.ibtn-submit');
+    if (listBtn.length > 0) {
+        listBtn.on('click', function() {
+            isaction = $(this).attr('data-val');
+            $('#itype').val(isaction);
+            if (isaction == '0') {
+                strmssage = '退回成功!.';
+            } else if (isaction == '-1') {
+                strmssage = '重新申请成功.';
+            } else {
+                strmssage = '审批成功.';
+            }
+        });
+    } else {
+        strmssage = '申请成功.';
+    }
     var eform = $('#e-form');
     eform.on('submit', function(event) {
         event.preventDefault();
+        if (msgShow) {};
         if (checkForm(eform)) {
             var list = eform.find('button[type=submit]').prop('disabled', 'disabled').addClass('btn-loading');
             iAjax({
                 url: eform.attr('action'),
                 data: eform.serialize(),
                 success: function(result) {
-                    if (result.status == 1) {} else {
+                    if (result.status == 1) {
+                        closeWin({
+                            url: result.info,
+                            info: strmssage
+                        });
+                    } else {
                         msgShow(result.info, true);
                     }
                 },

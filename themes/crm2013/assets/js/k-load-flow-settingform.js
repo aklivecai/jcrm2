@@ -56,7 +56,7 @@
                     t = (screen.availHeight - 30 - options.height) / 2,
                     pars = ['width=' + options.width, 'height=' + options.height, 'left=' + l, 'top=' + t, 'scrollbars=1', 'resizable=0'],
                     htmls = ['&lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt; &lt;link rel="stylesheet" type="text/css" href="' + ue.options.iframeCssUrl + '"&gt;&lt;/head&gt;&lt;body&gt;', html, '&lt;/body&gt;&lt;/html&gt;', '&lt;script&gt;  &lt;/script&gt;'],
-                    newWin = window.open('about:blank', 'printf', pars.join(','), null);
+                    newWin = window.open('about:blank', 'printf'+uuid(), pars.join(','), null);
                 html = htmls.join('');
                 html = html.replace(/&gt;/ig, '>');
                 html = html.replace(/&lt;/ig, '<');
