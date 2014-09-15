@@ -90,6 +90,24 @@ class FormField extends DbiRecod {
         parent::afterDelete();
         //
         $itemid = $this->primaryKey;
-        StepCondition::model()->deleteAll('field_id=' . $itemid);
+        /*
+        删除字段后,
+        删除条件的字段,
+        更新步骤条件数        
+        */
+        $list = StepCondition::model()->findAll('field_id=' . $itemid);
+        if (count($list) > 0) {
+            $flowStep = FlowStep::model();
+            $step_ids = array();
+            foreach ($list as $key => $value) {
+                if (!isset($step_ids[$value->step_id])) {
+                    $step_ids[$value->step_id] = $value->step_id;
+                }
+                $value->delete();
+            }
+            foreach ($step_ids as $key => $value) {
+                $flowStep->upConditions($value);
+            }
+        }
     }
 }

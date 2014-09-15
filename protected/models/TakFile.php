@@ -113,7 +113,6 @@ class TakFile extends DbRecod {
     protected function afterDelete() {
         parent::afterDelete();
     }
-    
     /**
      * 获取文件信息,大小名字,上传时间,上传人
      * @return [type] [description]
@@ -128,6 +127,10 @@ class TakFile extends DbRecod {
             'user' => $uname,
             'note' => $this->note,
         );
+        //type image
+        if ($this->suffix == 100) {
+            $data['src'] = Yii::app()->params['mainSite'] . $this->file_path;
+        }
         return $data;
     }
     /**

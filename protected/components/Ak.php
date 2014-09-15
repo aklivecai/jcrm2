@@ -1045,6 +1045,60 @@ class Ak {
         $mailer->Body = $body;
         $sendmail = $mailer->Send();
     }
+    /**
+     * 能否使用审批功能
+     * @return boolean [description]
+     */
+    public static function isWorkflow() {
+        $id = self::getFormid();
+        $data = array(
+            1 => '',
+            3930 => '佛山市木之源家具有限公司',
+            5052 => '深圳市嘉鸿顺实业有限公司',
+        );
+        return isset($data[$id]);
+    }
+    
+    public static function isWage() {
+        $id = self::getFormid();
+        $data = array(
+            1 => '',
+            5139 => '深圳市卡森家具有限公司',
+            3930 => '佛山市木之源家具有限公司',
+            4960 => '深圳市金品家具有限公司',
+            2446 => '深圳市泰之林家具限公司',
+            4083 => '东莞市圣发家具有限公司',
+            11882 => 'test',
+            11906 => '梅小琴test',
+            5290 => '深圳市智升家居有限公司',
+            //test
+            11916 => '深圳市欧曼缔家具有限公司',
+              5052 => '深圳市嘉鸿顺实业有限公司',
+        );
+        return isset($data[$id]);
+    }
+    public static function isCost() {
+        $id = self::getFormid();
+        $data = array(
+            1 => '',
+            5139 => '深圳市卡森家具有限公司',
+            3930 => '佛山市木之源家具有限公司',
+            4960 => '深圳市金品家具有限公司',
+            2446 => '深圳市泰之林家具限公司',
+            5471 => '深圳市冠邦世佳家居有限公司',
+            4973 => '深圳市欧廷美居家具有限公司',
+            4083 => '东莞市圣发家具有限公司',
+            
+            11882 => 'test',
+            11906 => '梅小琴test',
+            5290 => '深圳市智升家居有限公司',
+            5112 => '惠州市中港龙家具制造有限公司 ',
+            //test
+            11916 => '深圳市欧曼缔家具有限公司',
+              5052 => '深圳市嘉鸿顺实业有限公司',
+        );
+        return isset($data[$id]);
+    }
     public static function toCNcap($data, $ext = '元') {
         $capnum = array(
             "零",

@@ -127,7 +127,8 @@ class DefaultController extends WorkflowController {
         $model = $this->loadModel($id);
         $this->setLayoutWin();
         $this->render('run_prc', array(
-            'model' => $model
+            'model' => $model,
+            'id'=>$id
         ));
     }
     

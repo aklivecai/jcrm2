@@ -123,11 +123,15 @@ class FlowRunPrc extends DbiRecod {
     public function getUcount($id) {
         //AND step_no>1 //退回情况不生效
         $sql = "SELECT COUNT(1) FROM :table WHERE fromid=:fromid  AND handel_time=0 AND step_user=:step_use ";
-        $sql = strtr($sql, array(
+        $data = array(
             ':table' => FlowRunPrc::$table,
             ':fromid' => Ak::getFormid() ,
             ':step_use' => $id,
+        );
+        $sql = strtr($sql, $data);
+        // return self::$db->createCommand($sql)->queryScalar();
+        return FlowRunPrc::model()->count('handel_time=0 AND step_user=:step_use', array(
+            ':step_use' => $id
         ));
-        return self::$db->createCommand($sql)->queryScalar();
     }
 }

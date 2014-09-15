@@ -9,6 +9,7 @@ return array(
     'userUrl' => '/GitHub/CRM-U/',
     'upload' => 'upload/',
     'uploadUser' => '/upload/users/',
+    'mainSite'=>'http://crm.a.cn/',
     'help' => '有问题请联系 <strong>400 0168 488</strong>',
     'copyright' => '2000-2014 &copy; 具人同行版权所有 All Rights Reserved &nbsp;http://www.9juren.com/&nbsp; ',
 );

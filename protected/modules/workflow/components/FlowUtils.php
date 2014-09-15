@@ -17,8 +17,13 @@ class FlowUtils extends CComponent {
     private $_now = null;
     private $errors = array();
     private $fields = null;
-    private $separator = '$$';
+    
     private $userid = 0;
+    
+    public static $separator = '$$';
+    //是否检测表单字段,必须填写,因为手机版不能录入,所有加进去
+    //手机版当前不支持,提交申请,和处理字段
+    public $ischeck = true;
     
     private $isnext = true;
     public function __construct() {
@@ -67,6 +72,11 @@ class FlowUtils extends CComponent {
         }
     }
     
+    public static function getMulitValue($val, $separator = ',') {
+        $arr = explode(self::$separator, $val);
+        return sprintf(' [%s] ', implode($separator, $arr));
+    }
+    
     private function loadModel($id, $m, $strError = false) {
         $model = $m::model()->findByPk($id);
         if ($model == null && $strError) {
@@ -100,12 +110,16 @@ class FlowUtils extends CComponent {
      * @return [type] [description]
      */
     private function getMs() {
-        return array(
+        $data = array(
             'flowInfo' => $this->flowInfo,
             'fowForm' => $this->fowForm,
             'model' => $this->flowRun,
             'stepInfo' => $this->stepInfo,
-        );;
+        );
+        if ($this->flowRunPrc != null) {
+            $data['flowRunPrc'] = $this->flowRunPrc;
+        }
+        return $data;
     }
     /**
      * 已经是过滤过的了,确认传入值是正确的,这里面的数据不进行二次校验
@@ -118,6 +132,13 @@ class FlowUtils extends CComponent {
         if ($this->initFlow($flowRun->flow_id)) {
             $this->stepInfo = $this->loadModel($flowRun->step_id, 'FlowStep', '不存在步骤信息');
             $this->sqlData[':step_id'] = $this->stepInfo->primaryKey;
+            //当前进行的步骤
+            $this->flowRunPrc = FlowRunPrc::model()->findByAttributes(array(
+                'run_id' => $this->sqlData[':run_id']
+            ) , array(
+                'order' => 'prc_id DESC'
+            ));
+            // Tak::KD($this->flowRunPrc->attributes);
             
             return $this->getMs();
         }
@@ -131,12 +152,6 @@ class FlowUtils extends CComponent {
      * @param [type] $note 办理理由
      */
     public function HandleRun($type, $note, $data) {
-        $this->flowRunPrc = FlowRunPrc::model()->findByAttributes(array(
-            'run_id' => $this->sqlData[':run_id']
-        ) , array(
-            'order' => 'prc_id DESC'
-        ));
-        // Tak::KD($this->flowRunPrc->attributes);
         
         $this->setHand($type);
         $this->flowRunPrc->attributes = array(
@@ -177,7 +192,7 @@ class FlowUtils extends CComponent {
         if ($this->stepInfo->isFirst()) {
             if ($model->isNewRecord) {
                 //清空之前测试数据
-                // $this->clear();
+                /*$this->clear();              */
             }
             $model->attributes = isset($data['FlowRun']) && is_array($data['FlowRun']) ? $data['FlowRun'] : array();
             $model->flow_id = $this->flowInfo->primaryKey;
@@ -188,11 +203,13 @@ class FlowUtils extends CComponent {
             }
         }
         if ($model->validate()) {
-            
             $_fields = isset($data['fields']) && is_array($data['fields']) ? $data['fields'] : array();
-            //更新表单字段
-            $fieldsIds = $this->setWFields($_fields);
-            self::l('更新表单字段', $fieldsIds, $_fields);
+            //手机版当前不支持,提交申请,和处理字段
+            if ($this->ischeck) {
+                //更新表单字段
+                $fieldsIds = $this->setWFields($_fields);
+                self::l('更新表单字段', $fieldsIds, $_fields);
+            }
             //没有错误,继续执行
             if (count($this->errors) == 0) {
                 //更新附件信息
@@ -297,7 +314,7 @@ class FlowUtils extends CComponent {
             $errors = array();
             $itemid = $this->sqlData[':run_id'];
             $ids = array_keys($files_attr);
-            $idsStr = sprintf('%s%s%s', $this->separator, implode($this->separator, $ids) , $this->separator);
+            $idsStr = sprintf('%s%s%s', self::$separator, implode(self::$separator, $ids) , self::$separator);
             $_fields = $data;
             $writeFiles = array();
             $newVal = array(); //需要插入的字段和值
@@ -307,7 +324,7 @@ class FlowUtils extends CComponent {
             foreach ($_fields as $key => $value) {
                 //解码id
                 $__id = Tak::getSId($key);
-                if (strpos($idsStr, $__id . $this->separator)) {
+                if (strpos($idsStr, $__id . self::$separator)) {
                     $writeFiles[$__id] = $value;
                 }
             }
@@ -324,7 +341,7 @@ class FlowUtils extends CComponent {
                 }
                 if ($val !== null) {
                     if ($value->otype == 'checkbox') {
-                        $val = implode($this->separator, $val);
+                        $val = implode(self::$separator, $val);
                     }
                     $newVal[$__id] = $val;
                 } elseif ($files_attr[$__id]['must'] == 1) {

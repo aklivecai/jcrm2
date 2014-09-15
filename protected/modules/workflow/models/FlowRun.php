@@ -16,9 +16,10 @@ class FlowRun extends DbiRecod {
     private $userName = '';
     
     public $suid = 0;
-    
+    /*
     public $title = "生病了,需要请假三天";
     public $describe = "需要请假三天";
+    */
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -165,6 +166,9 @@ class FlowRun extends DbiRecod {
     public function getStatus() {
         return $this->end_time > 0 ? '结束' : '办理中';
     }
+    public function isOver(){
+        return $this->run_state>0;
+    }
     /**
      * 获取流程的表单值
      * @param  [type] $id [description]
@@ -190,7 +194,7 @@ class FlowRun extends DbiRecod {
     }
     /**
      * 获取附件列表
-     * @return [type] [description]
+     * @return [type]        [description]
      */
     public function getFiles() {
         $ids = explode(',', $this->attach);

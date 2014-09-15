@@ -566,7 +566,7 @@ class Tak extends Ak {
                 ) ,
             ) ,
             'workflow' => array(
-                'visible' => self::checkAccess('Workflow.Default.*') || self::checkAccess('Workflow.*') ,
+                'visible' => self::isWorkflow() && (self::checkAccess('Workflow.Default.*') || self::checkAccess('Workflow.*')) ,
                 'icon' => 'isw-list',
                 'label' => sprintf($strSpan, Tk::g('Workflow')) ,
                 'url' => array(
@@ -1165,44 +1165,6 @@ class Tak extends Ak {
         ob_end_clean();
     }
     
-    public static function isWage() {
-        $id = self::getFormid();
-        $data = array(
-            1 => '',
-            5139 => '深圳市卡森家具有限公司',
-            3930 => '佛山市木之源家具有限公司',
-            4960 => '深圳市金品家具有限公司',
-            2446 => '深圳市泰之林家具限公司',
-            4083 => '东莞市圣发家具有限公司',
-            11882 => 'test',
-            11906 => '梅小琴test',
-            5290 => '深圳市智升家居有限公司',
-            //test
-            11916 => '深圳市欧曼缔家具有限公司',
-        );
-        return isset($data[$id]);
-    }
-    public static function isCost() {
-        $id = self::getFormid();
-        $data = array(
-            1 => '',
-            5139 => '深圳市卡森家具有限公司',
-            3930 => '佛山市木之源家具有限公司',
-            4960 => '深圳市金品家具有限公司',
-            2446 => '深圳市泰之林家具限公司',
-            5471 => '深圳市冠邦世佳家居有限公司',
-            4973 => '深圳市欧廷美居家具有限公司',
-            4083 => '东莞市圣发家具有限公司',
-            
-            11882 => 'test',
-            11906 => '梅小琴test',
-            5290 => '深圳市智升家居有限公司',
-            5112 => '惠州市中港龙家具制造有限公司 ',
-            //test
-            11916 => '深圳市欧曼缔家具有限公司',
-        );
-        return isset($data[$id]);
-    }
     
     public static function getMsgByErrors($errors, $one = true) {
         if (is_string($errors)) {

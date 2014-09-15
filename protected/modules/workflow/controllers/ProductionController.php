@@ -51,7 +51,7 @@ class ProductionController extends WorkflowController {
         ) , array(
             "class" => "revoke-link"
         ));
-        
+        /*
         $htmls[] = JHtml::link(Tk::g(array(
             "Setting",
             "Step"
@@ -59,6 +59,7 @@ class ProductionController extends WorkflowController {
             "class" => "target-win",
             "data-full" => "true"
         ));
+        */
         return implode(' | ', $htmls);
     }
     /**
